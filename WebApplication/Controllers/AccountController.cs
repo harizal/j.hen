@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using WApp.Datas;
 using WApp.Helpers;
 using WApp.Models;
 using WApp.Utlis;
@@ -13,11 +15,13 @@ namespace WApp.Controllers
     public class AccountController : BaseController
     {
         private readonly ILogger<AccountController> _logger;
+        private readonly AppDataContext _context;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(ILogger<AccountController> logger, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public AccountController(ILogger<AccountController> logger, AppDataContext context, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
             _logger = logger;
+            _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
 
@@ -115,17 +119,21 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                results = results.Where(m => m.Name.Contains(filters[0] ?? string.Empty) && m.Email.Contains(filters[1] ?? string.Empty)).ToList();
 
-                results = await _userManager.Users
-                    .Where(m => m.Name.Contains(filters[0] ?? string.Empty) && m.Email.Contains(filters[1] ?? string.Empty))
-                    .Select(m => new UserViewModel
-                    {
-                        Id = m.Id,
-                        Email = m.Email,
-                        Name = m.Name,
-                        Role = "-"
-                    }).ToListAsync();
+                var query = from user in _userManager.Users
+                            join userRole in _context.UserRoles on user.Id equals userRole.UserId
+                            join role in _context.Roles on userRole.RoleId equals role.Id
+                            where user.Name.Contains(filters[0] ?? string.Empty) && user.Email.Contains(filters[1] ?? string.Empty)
+                            select new UserViewModel
+                            {
+                                Id = user.Id,
+                                Email = user.Email,
+                                Name = user.Name,
+                                Role = role.Name,
+                            };
+                            
+
+                results = await query.ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));

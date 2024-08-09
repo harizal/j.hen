@@ -11,21 +11,21 @@
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <!-- END META SECTION -->
         <!-- CSS INCLUDE -->
-        <link rel="stylesheet" type="text/css" id="theme" href="../css/theme-default.css" />
-        <link rel="stylesheet" type="text/css" id="theme" href="../css/datatable/datatable.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="~/css/theme-default.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />
         <style>
-            div.dt-container .dt-input{
+            div.dt-container .dt-input {
                 margin-right: 10px !important;
             }
         </style>
         <!-- EOF CSS INCLUDE -->
-        <script type="text/javascript" src="../js/plugins/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="../js/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="~/js/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="~/js/plugins/jquery/jquery-ui.min.js"></script>
     </head>
 </head>
 <body>
     <!-- START PAGE CONTAINER -->
-    <div class="page-container">        
+    <div class="page-container">
         <!-- START PAGE SIDEBAR -->
         <div class="page-sidebar">
             <!-- START X-NAVIGATION -->
@@ -36,16 +36,23 @@
                 </li>
                 <li class="xn-profile">
                     <a href="#" class="profile-mini">
-                        <img src="../assets/images/users/avatar.jpg" alt="John Doe" />
+                        <img src="~/assets/images/users/avatar.jpg" alt="John Doe" />
                     </a>
                     <div class="profile">
                         <div class="profile-image">
-                            <img src="../assets/images/users/avatar.jpg" alt="John Doe" />
+                            <img src="~/assets/images/users/avatar.jpg" alt="John Doe" />
                         </div>
                         <div class="profile-data">
                             <div class="profile-data-name">@User.Identity?.Name</div>
                         </div>
                     </div>
+                </li>
+                <li class="xn-title">Master Data</li>
+                <li>
+                    <a asp-action="Polda" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Polda</span></a>
+                    <a asp-action="Pendidikan" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Pendidikan</span></a>
+                    <a asp-action="Prodi" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Prodi</span></a>
+                    <a asp-action="Status" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Status</span></a>
                 </li>
                 <li class="xn-title">Systems</li>
                 <li>
@@ -56,7 +63,7 @@
                     <a href="index.html"><span class="fa fa-pencil"></span> <span class="xn-text">PNS</span></a>
                     <a href="index.html"><span class="fa fa-pencil"></span> <span class="xn-text">PPPK</span></a>
                     <a href="index.html"><span class="fa fa-pencil"></span> <span class="xn-text">PHL</span></a>
-                </li>                
+                </li>
             </ul>
             <!-- END X-NAVIGATION -->
         </div>
@@ -70,19 +77,19 @@
                 <li class="xn-icon-button">
                     <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
                 </li>
-                <!-- END TOGGLE NAVIGATION -->              
+                <!-- END TOGGLE NAVIGATION -->
                 <!-- SIGN OUT -->
                 <li class="xn-icon-button pull-right">
                     <a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>
                 </li>
-                <!-- END SIGN OUT -->                
+                <!-- END SIGN OUT -->
             </ul>
             <!-- END X-NAVIGATION VERTICAL -->
-            <!-- START BREADCRUMB -->           
+            <!-- START BREADCRUMB -->
             <!-- END BREADCRUMB -->
-            <!-- PAGE TITLE -->            
+            <!-- PAGE TITLE -->
             <!-- END PAGE TITLE -->
-            <!-- PAGE CONTENT WRAPPER -->           
+            <!-- PAGE CONTENT WRAPPER -->
             @RenderBody()
             <!-- PAGE CONTENT WRAPPER -->
         </div>
@@ -109,26 +116,26 @@
     </div>
     <!-- END MESSAGE BOX-->
     <!-- START PRELOADS -->
-    <audio id="audio-alert" src="../audio/alert.mp3" preload="auto"></audio>
-    <audio id="audio-fail" src="../audio/fail.mp3" preload="auto"></audio>
+    <audio id="audio-alert" src="~/audio/alert.mp3" preload="auto"></audio>
+    <audio id="audio-fail" src="~/audio/fail.mp3" preload="auto"></audio>
     <!-- END PRELOADS -->
     <!-- START SCRIPTS -->
-    <!-- START PLUGINS -->    
-    <script type="text/javascript" src="../js/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- START PLUGINS -->
+    <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap.min.js"></script>
     <!-- END PLUGINS -->
     <!-- THIS PAGE PLUGINS -->
-    <script type='text/javascript' src='../js/plugins/icheck/icheck.min.js'></script>
-    <script type="text/javascript" src="../js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+    <script type='text/javascript' src='~/js/plugins/icheck/icheck.min.js'></script>
+    <script type="text/javascript" src="~/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
 
-    <script type="text/javascript" src="../js/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/datatables/jquery.dataTables.min.js"></script>
     <!-- END PAGE PLUGINS -->
     <!-- START TEMPLATE -->
     @* <script type="text/javascript" src="js/settings.js"></script> *@
 
-    <script type="text/javascript" src="../js/plugins.js"></script>
-    <script type="text/javascript" src="../js/actions.js"></script>
-    <script type="text/javascript" src="../lib/sweetalert/sweetalert.min.js"></script>
-    <script type="text/javascript" src="../js/site.js"></script>
+    <script type="text/javascript" src="~/js/plugins.js"></script>
+    <script type="text/javascript" src="~/js/actions.js"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
     @if (TempData["notification"] != null)
     {
         var message = TempData["notification"]?.ToString();
