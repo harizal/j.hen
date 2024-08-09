@@ -1,0 +1,48 @@
+﻿@using WApp.ViewModels
+@model Login
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_UnautorizeLayout.cshtml";
+}
+
+<div class="login-container">
+    <div class="login-box animated fadeInDown">
+        <div class="login-logo"></div>
+        <div class="login-body">
+            <div class="login-title"><strong>Welcome</strong>, Please login</div>
+            <form asp-action="Login" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input asp-for="Username" class="form-control" placeholder="Username" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input asp-for="Password" class="form-control" type="password"  placeholder="Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="mb-1 form-check">
+                    <label class="form-check-label" style="color: #FFF">
+                        <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a => a.RememberMe)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <a asp-action="Register" class="btn btn-link btn-block">Don't have account?</a>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="submit" value="Log In" class="btn btn-info btn-block" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="login-footer">
+            <div class="pull-left">
+                &copy; @DateTime.Now.Year @WApp.Utlis.Constans.ApplicationName
+            </div>
+        </div>
+    </div>
+</div>
