@@ -7,7 +7,7 @@ namespace WApp.Controllers
     {
         public void Alert(string message, NotificationType notificationType)
         {
-            var msg = "<script language='javascript'>swal('" + notificationType.ToString().ToUpper() + "', '" + message + "','" + notificationType + "')" + "</script>";
+            var msg = "<script language='javascript'>var span = document.createElement('span');span.innerHTML = '" + message + "';swal({\r\n    title:'" + notificationType.ToString().ToUpper() + "',content:span});</script>";
             TempData["notification"] = msg;
         }
     }

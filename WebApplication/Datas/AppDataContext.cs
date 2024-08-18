@@ -10,5 +10,7 @@ namespace WApp.Datas
         public DbSet<PendidikanModel> Pendidikans { get; set; }
         public DbSet<ProdiModel> Prodis { get; set; }
         public DbSet<StatusModel> Statuses { get; set; }
+        public DbSet<PegawaiModel> Pegawais { get; set; }
+        public DbSet<SatuanKerjaWilayahModel> SatuanKerjas { get; set; }
     }
 }

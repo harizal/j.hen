@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using WApp.Models;
+using static WApp.Utlis.Enums;
 
 namespace WApp.ViewModels
 {
@@ -30,6 +31,12 @@ namespace WApp.ViewModels
         public string Name { get; set; }
     }
 
+    public class SatuanKerjaViewModel : BaseModel
+    {
+        [Required]
+        public string Name { get; set; }
+    }
+
     public class PendidikanViewModel : BaseModel
     {
         [Required]
@@ -46,5 +53,47 @@ namespace WApp.ViewModels
     {
         [Required]
         public string Name { get; set; }
+    }
+
+    public class PegawaiViewModel : BaseModel
+    {
+        public PegawaiType Type { get; set; }
+        public string? Nomor { get; set; }
+        [Required]
+        public string? NIK { get; set; }
+        [Required]
+        public string? Name { get; set; }
+
+        public JenisKelamin? JenisKelamin { get; set; }
+        public string? JenisKelaminText { get; set; }
+        public List<SelectListItem>? ListJenisKelamin { get; set; }
+        public string? NamaTempatLahir { get; set; }
+        public DateTime? TanggalLahir { get; set; }
+
+        public string? StatusPerkawinanID { get; set; }
+        public List<SelectListItem>? ListStatusPerkawinan { get; set; }
+
+        public string? PendidikanID { get; set; }
+        public List<SelectListItem>? ListPendidikan { get; set; }
+        public string ? PendidikanText { get; set; }
+
+        public string? ProdiID { get; set; }
+        public List<SelectListItem>? ListProdi { get; set; }
+        public string? ProdiText { get; set; }
+
+        public string? SatuanKerjaID { get; set; }
+        public List<SelectListItem>? ListSatuanKerja { get; set; }
+        public string? SatuanKerjaText { get; set; }
+
+        public string? UnitKerjaID { get; set; }
+        public List<SelectListItem>? ListUnitKerja { get; set; }
+        public string? UnitKerjaText { get; set; }
+
+        public string? TanggalAwal { get; set; }
+        public string? TanggalAkhir { get; set; }
+
+        public string? Keterangan { get; set; }
+        public string? StatusID { get; set; }
+        
     }
 }

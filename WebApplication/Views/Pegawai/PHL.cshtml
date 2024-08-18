@@ -1,6 +1,6 @@
 ﻿<ul class="breadcrumb">
     <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-    <li class="active">List Status</li>
+    <li class="active">List PHL</li>
 </ul>
 
 <div class="page-content-wrap">
@@ -16,6 +16,14 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
+                            <div class="col-md-6">                               
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">NIK</label>
+                                    <div class="col-md-9">
+                                        <input id="nik" type="text" class="form-control" />
+                                    </div>
+                                </div>                                
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Name</label>
@@ -40,12 +48,21 @@
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a asp-action="CreateStatus" asp-controller="Master" class="btn btn-primary"><span class="fa fa-plus"></span> Add New</a>
-                    <table id="tableData" class="table display" style="width:100%">
+                    <a asp-action="CreatePHL" asp-controller="Pegawai" class="btn btn-primary"><span class="fa fa-plus"></span> Add New</a>
+                    <table id="tableData" class="table display">
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>NIK</th>
                                 <th>NAME</th>
+                                <th>JENIS KELAMIN</th>
+                                <th>PENDIDIKAN</th>
+                                <th>PRODI</th>
+                                <th>SATUAN KERJA</th>
+                                <th>UNIT KERJA</th>
+                                <th>AWAL KERJA</th>
+                                <th>AKHIR KERJA</th>
+                                <th>KETERANGAN</th>
                                 <th>STATUS</th>                                
                             </tr>
                         </thead>
@@ -63,11 +80,11 @@
             datatable = $('#tableData')
                 .DataTable({
                     ajax: {
-                        url: "/Master/GetStatus",
+                        url: "/Pegawai/GetPHL",
                         type: "POST",
                         async: true,
                         data: function (data) {
-                            data.additionalValues = [$("#name").val(), $("#email").val()];
+                            data.additionalValues = [$("#nik").val(), $("#name").val()];
                             return data;
                         }
                     },
@@ -79,19 +96,46 @@
                             "data": "id",
                             "width": "100px",
                             "render": function (data, type, row, meta) {
-                                var editUrl = "/Master/EditStatus/" + data;
+                                var editUrl = "/Pegawai/EditPHL/" + data;
                                 return `<div style="text-align: center;">
-                                                    <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
-                                                            <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
-                                                                </div>`
+                                                            <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
+                                                                    <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
+                                                                        </div>`
                             }
+                        },
+                        {
+                            "data": "nik",
                         },
                         {
                             "data": "name",
                         },
                         {
+                            "data": "jenisKelaminText",
+                        },
+                        {
+                            "data": "pendidikanText",
+                        },
+                        {
+                            "data": "prodiText",
+                        },
+                        {
+                            "data": "satuanKerjaText",
+                        },
+                        {
+                            "data": "unitKerjaText",
+                        },
+                        {
+                            "data": "tanggalAwal",
+                        },
+                        {
+                            "data": "tanggalAkhir",
+                        },
+                        {
+                            "data": "keterangan",
+                        },
+                        {
                             "data": "isActive",
-                            "width": "100px",
+                            "width": "50px",
                             "render": function (data, type, row, meta) {
                                 return data ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>Non Active</span>"
                             }
@@ -101,6 +145,7 @@
                     serverSide: true,
                     searching: false,
                     ordering: false,
+                    scrollX: true,
                     drawCallback: function (settings) {
                         initDelete(".deleteDatas");
                     }
@@ -108,8 +153,8 @@
         }
 
         function ClearForm() {
+            $("#nik").val('');
             $("#name").val('');
-            $("#email").val('');
         }
 
         function Search() {
@@ -121,7 +166,7 @@
                 var btn = $(this);
                 var id = btn.attr("data-id");
 
-                ShowConfimDelete(datatable, "/Master/DeleteStatus/" + id)
+                ShowConfimDelete(datatable, "/Pegawai/DeletePHL/" + id)
             });
         }
 

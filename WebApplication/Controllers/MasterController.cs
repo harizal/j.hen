@@ -37,7 +37,7 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.Poldas.Where(m => m.Name.Contains(filters[0] ?? string.Empty))
+                var query = _context.Poldas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
                     .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
                     .Select(m => new PoldaViewModel
                     {
@@ -169,7 +169,7 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.Pendidikans.Where(m => m.Name.Contains(filters[0] ?? string.Empty))
+                var query = _context.Pendidikans.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
                     .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
                     .Select(m => new PendidikanViewModel
                     {
@@ -301,7 +301,7 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.Prodis.Where(m => m.Name.Contains(filters[0] ?? string.Empty))
+                var query = _context.Prodis.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
                     .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
                     .Select(m => new ProdiViewModel
                     {
@@ -419,7 +419,7 @@ namespace WApp.Controllers
         }
         #endregion
 
-        #region Status
+        #region StatusPerkawinan
         public IActionResult Status()
         {
             return View();
@@ -433,7 +433,7 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.Statuses.Where(m => m.Name.Contains(filters[0] ?? string.Empty))
+                var query = _context.Statuses.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
                     .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
                     .Select(m => new StatusViewModel
                     {
@@ -545,6 +545,138 @@ namespace WApp.Controllers
             else
             {
                 _context.Statuses.Remove(existingData);
+                await _context.SaveChangesAsync();
+                return Ok(new { isSuccess = true });
+            }
+        }
+        #endregion
+
+        #region SatuanKerja
+        public IActionResult SatuanKerja()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetSatuanKerja(BaseDTParameters param)
+        {
+            var results = new List<SatuanKerjaViewModel>();
+
+            if (param.AdditionalValues != null && param.AdditionalValues.Any())
+            {
+                var filters = param.AdditionalValues.ToList();
+                var query = _context.SatuanKerjas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
+                    .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
+                    .Select(m => new SatuanKerjaViewModel
+                    {
+                        Id = m.Id,
+                        CreatedBy = m.CreatedBy,
+                        CreatedDate = m.CreatedDate,
+                        IsActive = m.IsActive,
+                        Name = m.Name,
+                        UpdatedBy = m.UpdatedBy,
+                        UpdatedDate = m.UpdatedDate
+                    });
+
+                results = await query.ToListAsync();
+            }
+
+            return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
+        }
+
+        public IActionResult CreateSatuanKerja()
+        {
+            return View(new SatuanKerjaViewModel());
+        }
+
+        public IActionResult EditSatuanKerja(string id)
+        {
+            var existingData = _context.SatuanKerjas.FirstOrDefault(m => m.Id == id);
+            if (existingData == null)
+            {
+                Alert(Constans.Label.DataNotFound, Enums.NotificationType.error);
+                return RedirectToAction("SatuanKerja", "Master");
+            }
+
+            return View(new SatuanKerjaViewModel()
+            {
+                Id = existingData.Id,
+                CreatedBy = existingData.CreatedBy,
+                CreatedDate = existingData.CreatedDate,
+                IsActive = existingData.IsActive,
+                Name = existingData.Name,
+                UpdatedBy = existingData.UpdatedBy,
+                UpdatedDate = existingData.UpdatedDate
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEditSatuanKerja(SatuanKerjaViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var existingSatuanKerja = _context.SatuanKerjas.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive);
+                    if (!string.IsNullOrEmpty(model.Id))
+                    {
+                        existingSatuanKerja = _context.SatuanKerjas.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.Id != model.Id);
+                    }
+
+                    if (existingSatuanKerja)
+                    {
+                        Alert(string.Format(Constans.Label.AlreadyExists, model.Name), Enums.NotificationType.error);
+                        return View("CreateSatuanKerja", model);
+                    }
+                    var entity = new SatuanKerjaWilayahModel
+                    {
+                        Id = string.IsNullOrEmpty(model.Id) ? Guid.NewGuid().ToString() : model.Id,
+                        Name = model.Name,
+                        IsActive = model.IsActive,
+                        CreatedBy = User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                        UpdatedBy = User.Identity.Name,
+                        UpdatedDate = DateTime.Now,
+                    };
+
+                    if (string.IsNullOrEmpty(model.Id))
+                        _context.Add(entity);
+                    else
+                        _context.Update(entity);
+
+                    await _context.SaveChangesAsync();
+
+                    Alert(Constans.Label.SavedSuccess, Enums.NotificationType.success);
+                    return RedirectToAction("SatuanKerja", "Master");
+                }
+                else
+                {
+                    var message = string.Empty;
+                    foreach (var item in ModelState.Where(m => m.Value.ValidationState != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid))
+                    {
+                        message += Environment.NewLine + item.Value.Errors[0].ErrorMessage;
+                    }
+                    Alert(message, Enums.NotificationType.error);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+
+                Alert(ex.Message, Enums.NotificationType.error);
+            }
+            return View("CreateSatuanKerja", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSatuanKerja(string id)
+        {
+            var existingData = _context.SatuanKerjas.FirstOrDefault(m => m.Id == id);
+            if (existingData == null)
+                return Ok(new { isSuccess = false, error = Constans.Label.DataNotFound });
+            else
+            {
+                _context.SatuanKerjas.Remove(existingData);
                 await _context.SaveChangesAsync();
                 return Ok(new { isSuccess = true });
             }

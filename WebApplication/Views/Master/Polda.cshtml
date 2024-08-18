@@ -1,6 +1,6 @@
 ﻿<ul class="breadcrumb">
     <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-    <li class="active">List Polda</li>
+    <li class="active">List Unit Kerja</li>
 </ul>
 
 <div class="page-content-wrap">
@@ -44,9 +44,9 @@
                     <table id="tableData" class="table display" style="width:100%">
                         <thead>
                             <tr>
-                                <th>NAME</th>
-                                <th>STATUS</th>
                                 <th></th>
+                                <th>NAME</th>
+                                <th>STATUS</th>                                
                             </tr>
                         </thead>
                     </table>
@@ -76,6 +76,17 @@
                     },
                     "columns": [
                         {
+                            "data": "id",
+                            "width": "100px",
+                            "render": function (data, type, row, meta) {
+                                var editUrl = "/Master/EditPolda/" + data;
+                                return `<div style="text-align: center;">
+                                                    <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
+                                                            <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
+                                                                </div>`
+                            }
+                        },
+                        {
                             "data": "name",
                         },
                         {
@@ -84,18 +95,7 @@
                             "render": function (data, type, row, meta) {
                                 return data ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>Non Active</span>"
                             }
-                        },
-                        {
-                            "data": "id",
-                            "width": "100px",
-                            "render": function (data, type, row, meta) {
-                                var editUrl = "/Master/EditPolda/" + data;
-                                return `<div style="text-align: center;">
-                                            <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
-                                                    <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
-                                                        </div>`
-                            }
-                        },
+                        },                        
                     ],
                     serverSide: true,
                     searching: false,

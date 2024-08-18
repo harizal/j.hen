@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WApp.Datas;
 
@@ -10,9 +11,11 @@ using WApp.Datas;
 namespace WApp.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240812105954_AddPegawai")]
+    partial class AddPegawai
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
@@ -232,7 +235,25 @@ namespace WApp.Migrations
                     b.Property<string>("Keterangan")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("KodeJabatanTerakhir")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("KodePendidikanTerakhir")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("KodeTempatLahir")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("NIK")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NamaJabatanTerakhir")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NamaPendidikanTerakhir")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NamaSekolah")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NamaTempatLahir")
@@ -244,16 +265,25 @@ namespace WApp.Migrations
                     b.Property<string>("Nomor")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NomorIjazah")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NomorPeserta")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NomorSK")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PendidikanID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PoldaID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProdiID")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SatuanKerjaID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StatusPerkawinanID")
+                    b.Property<string>("StatusID")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("TanggalAkhir")
@@ -265,11 +295,14 @@ namespace WApp.Migrations
                     b.Property<DateTime?>("TanggalLahir")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("TanggalLulus")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("TanggalSK")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Type")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("UnitKerjaID")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
@@ -367,35 +400,6 @@ namespace WApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Prodis");
-                });
-
-            modelBuilder.Entity("WApp.Models.SatuanKerjaWilayahModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SatuanKerjas");
                 });
 
             modelBuilder.Entity("WApp.Models.StatusModel", b =>

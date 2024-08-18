@@ -29,7 +29,7 @@ namespace WApp.ViewModels.Parameters
             }
         }
 
-        public IEnumerable<string> AdditionalValues { get; set; }
+        public IEnumerable<string> AdditionalValues { get; set; } = new List<string>();
     }
 
     public class DTColumn

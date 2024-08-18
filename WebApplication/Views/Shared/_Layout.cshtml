@@ -17,6 +17,10 @@
             div.dt-container .dt-input {
                 margin-right: 10px !important;
             }
+
+            .table {
+                white-space: nowrap;
+            }
         </style>
         <!-- EOF CSS INCLUDE -->
         <script type="text/javascript" src="~/js/plugins/jquery/jquery.min.js"></script>
@@ -31,7 +35,7 @@
             <!-- START X-NAVIGATION -->
             <ul class="x-navigation">
                 <li class="xn-logo">
-                    <a href="index.html">Admin</a>
+                    <a asp-action="index" asp-controller="Home">Admin</a>
                     <a href="#" class="x-navigation-control"></a>
                 </li>
                 <li class="xn-profile">
@@ -49,20 +53,20 @@
                 </li>
                 <li class="xn-title">Master Data</li>
                 <li>
-                    <a asp-action="Polda" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Polda</span></a>
+                    <a asp-action="Polda" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Unit Kerja</span></a>
+                    <a asp-action="SatuanKerja" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Satuan Kerja</span></a>
                     <a asp-action="Pendidikan" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Pendidikan</span></a>
                     <a asp-action="Prodi" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Prodi</span></a>
                     <a asp-action="Status" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Status</span></a>
                 </li>
+                <li class="xn-title">Transactions</li>
+                <li>
+                    <a asp-action="K2" asp-controller="Pegawai"><span class="fa fa-pencil"></span> <span class="xn-text">K-II</span></a>
+                    <a asp-action="PHL" asp-controller="Pegawai"><span class="fa fa-pencil"></span> <span class="xn-text">PHL</span></a>
+                </li>
                 <li class="xn-title">Systems</li>
                 <li>
                     <a asp-action="Index" asp-controller="Account"><span class="fa fa-user"></span> <span class="xn-text">Users</span></a>
-                </li>
-                <li class="xn-title">Navigation</li>
-                <li>
-                    <a href="index.html"><span class="fa fa-pencil"></span> <span class="xn-text">PNS</span></a>
-                    <a href="index.html"><span class="fa fa-pencil"></span> <span class="xn-text">PPPK</span></a>
-                    <a href="index.html"><span class="fa fa-pencil"></span> <span class="xn-text">PHL</span></a>
                 </li>
             </ul>
             <!-- END X-NAVIGATION -->
@@ -126,11 +130,10 @@
     <!-- THIS PAGE PLUGINS -->
     <script type='text/javascript' src='~/js/plugins/icheck/icheck.min.js'></script>
     <script type="text/javascript" src="~/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
-
     <script type="text/javascript" src="~/js/plugins/datatables/jquery.dataTables.min.js"></script>
     <!-- END PAGE PLUGINS -->
     <!-- START TEMPLATE -->
-    @* <script type="text/javascript" src="js/settings.js"></script> *@
+    <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
 
     <script type="text/javascript" src="~/js/plugins.js"></script>
     <script type="text/javascript" src="~/js/actions.js"></script>

@@ -2,7 +2,7 @@
 {
     public class Constans
     {
-        public const string ApplicationName = "This is Application Name";
+        public const string ApplicationName = "SIPNONA (Sistem Informasi Pegawai Non ASN)";
 
         public const string RoleAdministrator = "Administrator";
         public const string RoleUser = "User";

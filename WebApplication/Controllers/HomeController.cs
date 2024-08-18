@@ -18,14 +18,11 @@ namespace WApp.Controllers
 
         public IActionResult Index()
         {
-            Alert("This is error message", NotificationType.error);
             return View();
         }
 
         public IActionResult Privacy()
         {
-            throw new Exception("ERRRORRR EUY...!!!!!");
-            Alert("This is success message", NotificationType.success);
             return View();
         }
 

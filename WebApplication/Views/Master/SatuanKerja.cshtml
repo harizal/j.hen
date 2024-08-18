@@ -1,6 +1,6 @@
 ﻿<ul class="breadcrumb">
     <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-    <li class="active">List Status</li>
+    <li class="active">List Satuan Kerja</li>
 </ul>
 
 <div class="page-content-wrap">
@@ -40,7 +40,7 @@
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a asp-action="CreateStatus" asp-controller="Master" class="btn btn-primary"><span class="fa fa-plus"></span> Add New</a>
+                    <a asp-action="CreateSatuanKerja" asp-controller="Master" class="btn btn-primary"><span class="fa fa-plus"></span> Add New</a>
                     <table id="tableData" class="table display" style="width:100%">
                         <thead>
                             <tr>
@@ -63,7 +63,7 @@
             datatable = $('#tableData')
                 .DataTable({
                     ajax: {
-                        url: "/Master/GetStatus",
+                        url: "/Master/GetSatuanKerja",
                         type: "POST",
                         async: true,
                         data: function (data) {
@@ -79,7 +79,7 @@
                             "data": "id",
                             "width": "100px",
                             "render": function (data, type, row, meta) {
-                                var editUrl = "/Master/EditStatus/" + data;
+                                var editUrl = "/Master/EditSatuanKerja/" + data;
                                 return `<div style="text-align: center;">
                                                     <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
                                                             <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
@@ -95,8 +95,7 @@
                             "render": function (data, type, row, meta) {
                                 return data ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>Non Active</span>"
                             }
-                        },
-                        
+                        },                        
                     ],
                     serverSide: true,
                     searching: false,
@@ -121,7 +120,7 @@
                 var btn = $(this);
                 var id = btn.attr("data-id");
 
-                ShowConfimDelete(datatable, "/Master/DeleteStatus/" + id)
+                ShowConfimDelete(datatable, "/Master/DeleteSatuanKerja/" + id)
             });
         }
 

@@ -1,0 +1,147 @@
+﻿@using WApp.ViewModels
+@model PegawaiViewModel
+
+<ul class="breadcrumb">
+    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+    <li><a asp-action="K2" asp-controller="Pegawai">List K-II</a></li>
+    <li class="active">Create K-II</li>
+</ul>
+
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="CreateEditK2" method="post" class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Create K-II</strong></h3>
+                    </div>
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">No Registrasi</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input asp-for="Nomor" class="form-control" />
+                                        <span asp-validation-for="Nomor" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">NIK*</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input asp-for="NIK" class="form-control" />
+                                        <span asp-validation-for="NIK" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Name*</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control"></select>
+                                        <span asp-validation-for="JenisKelamin" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListPendidikan" asp-for="PendidikanID" class="form-control">
+                                            <option></option>
+                                        </select>
+                                        <span asp-validation-for="PendidikanID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Prodi</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListProdi" asp-for="ProdiID" class="form-control">
+                                            <option></option>
+                                        </select>
+                                        <span asp-validation-for="ProdiID" class="text-danger"></span>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control">
+                                            <option></option>
+                                        </select>
+                                        <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control">
+                                            <option></option>
+                                        </select>
+                                        <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Awal Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input asp-for="TanggalAwal" class="form-control" />
+                                        <span asp-validation-for="TanggalAwal" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Akhir Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input asp-for="TanggalAkhir" class="form-control" />
+                                        <span asp-validation-for="TanggalAkhir" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Keterangan</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <textarea asp-for="Keterangan" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Active</label>
+                                    <div class="col-md-9">
+                                        <label class="check"><input asp-for="IsActive" /> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a class="btn btn-default" asp-action="K2" asp-controller="Pegawai"><i class="fa fa-arrow-left"></i>Back</a>
+                        <a class="btn btn-default" href="javascript:void(0)" onClick="ClearAllInput('.form-horizontal :input')"><i class="fa fa-refresh"></i>Clear Form</a>
+                        <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-save"></i>Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#TanggalAwal").datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        }).on('changeDate', function () {
+            $("#TanggalAkhir").val('');
+            var tanggalAwal = $(this).datepicker('getDate');
+            if (tanggalAwal) {
+                $("#TanggalAkhir").datepicker('setStartDate', tanggalAwal);
+            }
+        });;
+
+        $("#TanggalAkhir").datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    });
+</script>

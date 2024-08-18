@@ -1,19 +1,19 @@
 ﻿@using WApp.ViewModels
-@model PoldaViewModel
+@model SatuanKerjaViewModel
 
 <ul class="breadcrumb">
     <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-    <li><a asp-action="Polda" asp-controller="Master">List Unit Kerja</a></li>
-    <li class="active">Create Unit Kerja</li>
+    <li><a asp-action="SatuanKerja" asp-controller="Master">List Satuan Kerja</a></li>
+    <li class="active">Edit Satuan Kerja</li>
 </ul>
 
 <div class="page-content-wrap">
     <div class="row">
         <div class="col-md-12">
-            <form asp-action="CreateEditPolda" method="post" class="form-horizontal">
+            <form asp-action="CreateEditSatuanKerja" method="post" class="form-horizontal">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Create Unit Kerja</strong></h3>
+                        <h3 class="panel-title"><strong>Edit Satuan Kerja</strong></h3>
                     </div>
                     <input asp-for="Id" type="hidden" />
 
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <a class="btn btn-default" asp-action="Polda" asp-controller="Master"><i class="fa fa-arrow-left"></i>Back</a>
+                        <a class="btn btn-default" asp-action="SatuanKerja" asp-controller="Master"><i class="fa fa-arrow-left"></i>Back</a>
                         <a class="btn btn-default" href="javascript:void(0)" onClick="ClearAllInput('.form-horizontal :input')"><i class="fa fa-refresh"></i>Clear Form</a>
                         <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-save"></i>Submit</button>
                     </div>
