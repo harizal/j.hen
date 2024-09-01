@@ -37,14 +37,14 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control"></select>
+                                        <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select>
                                         <span asp-validation-for="JenisKelamin" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select asp-items="Model.ListPendidikan" asp-for="PendidikanID" class="form-control">
+                                        <select asp-items="Model.ListPendidikan" asp-for="PendidikanID" class="form-control select" data-live-search="true">
                                             <option></option>
                                         </select>
                                         <span asp-validation-for="PendidikanID" class="text-danger"></span>
@@ -53,7 +53,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Prodi</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select asp-items="Model.ListProdi" asp-for="ProdiID" class="form-control">
+                                        <select asp-items="Model.ListProdi" asp-for="ProdiID" class="form-control select" data-live-search="true">
                                             <option></option>
                                         </select>
                                         <span asp-validation-for="ProdiID" class="text-danger"></span>
@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control">
+                                        <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control select" data-live-search="true">
                                             <option></option>
                                         </select>
                                         <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control">
+                                        <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control select" data-live-search="true">
                                             <option></option>
                                         </select>
                                         <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
@@ -111,7 +111,7 @@
                     <div class="panel-footer">
                         <a class="btn btn-default" asp-action="PHL" asp-controller="Pegawai"><i class="fa fa-arrow-left"></i>Back</a>
                         <a class="btn btn-default" href="javascript:void(0)" onClick="ClearAllInput('.form-horizontal :input')"><i class="fa fa-refresh"></i>Clear Form</a>
-                        <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-save"></i>Submit</button>
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>Submit</button>
                     </div>
                 </div>
             </form>

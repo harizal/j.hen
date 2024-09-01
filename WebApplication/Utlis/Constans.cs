@@ -17,6 +17,7 @@
             public const string AlreadyExists = "{0} already exists.";
             public const string DataNotFound = "Data not found.";
             public const string SavedSuccess = "Data has been saved successfully.";
+            public const string IsRequired = "{0} is required.";
 
             public const string CanntDeleteCurrentUser = "You are not allowed to delete the current user.";
             public const string CanntDeleteSuperAdmin = "You are not allowed to delete the Super Admin.";

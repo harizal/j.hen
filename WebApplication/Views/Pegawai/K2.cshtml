@@ -9,6 +9,41 @@
             <div class="form-horizontal">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Upload File</strong></h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Upload Excel File</label>
+                                    <div class="col-md-9">
+                                        <input type="file" class="form-control" name="fileUpload" id="fileUpload" title="Browse file" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-9">
+                                        <button class="btn btn-primary" id="UploadFile"><i class="fa fa-upload"></i>Upload File</button>
+                                        <a href="~/ExcelTemplate/Template-K-II.xlsx" class="btn btn-default "><i class="fa fa-download"></i>Download Template</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <h3 class="panel-title"><strong>Filter</strong></h3>
                         <ul class="panel-controls">
                             <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
@@ -23,12 +58,6 @@
                                         <input id="noRegistrasi" type="text" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">NIK</label>
-                                    <div class="col-md-9">
-                                        <input id="nik" type="text" class="form-control" />
-                                    </div>
-                                </div>                                
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -42,7 +71,7 @@
                     </div>
                     <div class="panel-footer">
                         <button class="btn btn-default" id="clearForm" onClick="ClearForm()"><i class="fa fa-refresh"></i>Clear Form</button>
-                        <button class="btn btn-primary pull-right" onClick="Search()"><i class="fa fa-search"></i>Submit</button>
+                        <button class="btn btn-primary" onClick="Search()"><i class="fa fa-search"></i>Search</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +89,6 @@
                             <tr>
                                 <th></th>
                                 <th>NO REGISTRASI</th>
-                                <th>NIK</th>
                                 <th>NAME</th>
                                 <th>JENIS KELAMIN</th>
                                 <th>PENDIDIKAN</th>
@@ -70,7 +98,7 @@
                                 <th>AWAL KERJA</th>
                                 <th>AKHIR KERJA</th>
                                 <th>KETERANGAN</th>
-                                <th>STATUS</th>                                
+                                <th>STATUS</th>
                             </tr>
                         </thead>
                     </table>
@@ -91,7 +119,7 @@
                         type: "POST",
                         async: true,
                         data: function (data) {
-                            data.additionalValues = [$("#noRegistrasi").val(), $("#nik").val(), $("#name").val()];
+                            data.additionalValues = [$("#noRegistrasi").val(), $("#name").val()];
                             return data;
                         }
                     },
@@ -105,13 +133,10 @@
                             "render": function (data, type, row, meta) {
                                 var editUrl = "/Pegawai/EditK2/" + data;
                                 return `<div style="text-align: center;">
-                                                            <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
-                                                                    <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
-                                                                        </div>`
+                                                                                                            <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
+                                                                                                                    <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
+                                                                                                                        </div>`
                             }
-                        },
-                        {
-                            "data": "nomor",
                         },
                         {
                             "data": "nik",
@@ -150,7 +175,7 @@
                                 return data ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>Non Active</span>"
                             }
                         },
-                        
+
                     ],
                     serverSide: true,
                     searching: false,
@@ -164,7 +189,6 @@
 
         function ClearForm() {
             $("#noRegistrasi").val('');
-            $("#nik").val('');
             $("#name").val('');
         }
 
@@ -180,5 +204,47 @@
                 ShowConfimDelete(datatable, "/Pegawai/DeleteK2/" + id)
             });
         }
+
+        $("#UploadFile").click(function () {
+            var formData = new FormData();
+            var file = $("#fileUpload")[0].files[0];
+            if (file == '' || file == null) {
+                swal({
+                    title: 'Warning!',
+                    text: "The File cannot be empty!",
+                    type: 'warning'
+                })
+                return false;
+            }
+
+            formData.append('file', file);
+
+            $.ajax({
+                url: "../Pegawai/UploadK2",
+                type: "POST",
+                contentType: false,
+                data: formData,
+                dataType: "json",
+                cache: false,
+                processData: false,
+                async: true,
+            }).done(function (data, textStatus, jqXhr) {
+                $("#fileUpload").val();
+                swal({
+                    title: 'Upload File!',
+                    text: data.error,
+                    type: data.issuccess == false ? 'warning' : 'success'
+                })
+            }).fail(function (jqXhr, textStatus, errorThrown) {                
+                swal({
+                    title: 'Warning!',
+                    text: 'Error upload data.',
+                    type: 'warning'
+                })
+            }).always(function (data, textStatus, jqXhr) {
+                $("#fileUpload").val('');
+                datatable.ajax.reload();
+            });
+        });
 
     </script>

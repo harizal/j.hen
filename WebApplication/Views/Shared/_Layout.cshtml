@@ -11,8 +11,6 @@
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <!-- END META SECTION -->
         <!-- CSS INCLUDE -->
-        <link rel="stylesheet" type="text/css" id="theme" href="~/css/theme-default.css" />
-        <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />
         <style>
             div.dt-container .dt-input {
                 margin-right: 10px !important;
@@ -22,6 +20,8 @@
                 white-space: nowrap;
             }
         </style>
+        <link rel="stylesheet" type="text/css" id="theme" href="~/css/theme-default.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />        
         <!-- EOF CSS INCLUDE -->
         <script type="text/javascript" src="~/js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="~/js/plugins/jquery/jquery-ui.min.js"></script>
@@ -57,17 +57,17 @@
                     <a asp-action="SatuanKerja" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Satuan Kerja</span></a>
                     <a asp-action="Pendidikan" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Pendidikan</span></a>
                     <a asp-action="Prodi" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Prodi</span></a>
-                    <a asp-action="Status" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Status</span></a>
+                    @* <a asp-action="Status" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Status</span></a> *@
                 </li>
                 <li class="xn-title">Transactions</li>
                 <li>
                     <a asp-action="K2" asp-controller="Pegawai"><span class="fa fa-pencil"></span> <span class="xn-text">K-II</span></a>
                     <a asp-action="PHL" asp-controller="Pegawai"><span class="fa fa-pencil"></span> <span class="xn-text">PHL</span></a>
                 </li>
-                <li class="xn-title">Systems</li>
+                @* <li class="xn-title">Systems</li>
                 <li>
                     <a asp-action="Index" asp-controller="Account"><span class="fa fa-user"></span> <span class="xn-text">Users</span></a>
-                </li>
+                </li> *@
             </ul>
             <!-- END X-NAVIGATION -->
         </div>
@@ -134,11 +134,14 @@
     <!-- END PAGE PLUGINS -->
     <!-- START TEMPLATE -->
     <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-select.js"></script>
 
+    <script type="text/javascript" src="js/settings.js"></script>
     <script type="text/javascript" src="~/js/plugins.js"></script>
     <script type="text/javascript" src="~/js/actions.js"></script>
     <script type="text/javascript" src="~/lib/sweetalert/sweetalert.min.js"></script>
     <script type="text/javascript" src="~/js/site.js"></script>
+    <script type="text/javascript" src="~/js/plugins/owl/owl.carousel.min.js"></script>
     @if (TempData["notification"] != null)
     {
         var message = TempData["notification"]?.ToString();

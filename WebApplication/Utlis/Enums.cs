@@ -28,7 +28,7 @@ namespace WApp.Utlis
         {
             [Description("Laki-Laki")]
             L,
-            [Description("Perempuan")]
+            [Description("Wanita")]
             P
         }
     }

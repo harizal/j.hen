@@ -96,4 +96,23 @@ namespace WApp.ViewModels
         public string? StatusID { get; set; }
         
     }
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public int Total { get; set; }
+    }
+
+    public class DashboardViewModel
+    {
+        public int TotalK2 { get; set; } = 0;
+        public int TotalK2Aktif { get; set; } = 0;
+        public List<Item> K2JenisKelamin { get; set; } = [];
+        public List<Item> K2Pendidikan { get; set; } = [];
+
+        public int TotalPHL { get; set; } = 0;
+        public int TotalPHLAktif { get; set; } = 0;
+        public List<Item> PHLJenisKelamin { get; set; } = [];
+        public List<Item> PHLPendidikan { get; set; } = [];
+    }
 }

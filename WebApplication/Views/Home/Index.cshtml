@@ -1,57 +1,39 @@
-﻿<div class="page-content-wrap" style="padding-top: 10px">
+﻿@using WApp.ViewModels
+@model DashboardViewModel
 
-    <!-- START WIDGETS -->
-    <div class="row">        
-        @* <div class="col-md-3">
-
-            <!-- START WIDGET MESSAGES -->
-            <div class="widget widget-default widget-item-icon">
-                <div class="widget-item-left">
-                    <span class="fa fa-envelope"></span>
-                </div>
-                <div class="widget-data">
-                    <div class="widget-int num-count">48</div>
-                    <div class="widget-title">New messages</div>
-                    <div class="widget-subtitle">In your mailbox</div>
-                </div>
-            </div>
-            <!-- END WIDGET MESSAGES -->
-
-        </div> *@
+<div class="page-content-wrap" style="padding-top: 10px">
+    <div class="row">
         <div class="col-md-3">
-
-            <!-- START WIDGET REGISTRED -->
-            <div class="widget widget-default widget-item-icon" >
+            <div class="widget widget-default widget-item-icon" onclick="location.href='/Pegawai/K2';">
                 <div class="widget-item-left">
                     <span class="fa fa-user"></span>
                 </div>
                 <div class="widget-data">
-                    <div class="widget-int num-count">375</div>
+                    <div class="widget-int num-count">@Model.TotalK2</div>
                     <div class="widget-title">Registred K-II</div>
-                    <div class="widget-subtitle">On your website</div>
+                    <div class="widget-subtitle">Data Aktif (@Model.TotalK2Aktif)</div>
+                </div>
+                <div class="widget-controls">
+                    <a asp-action="K2" asp-controller="Pegawai" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top" title="Remove Widget"><span class="fa fa-times"></span></a>
                 </div>
             </div>
-            <!-- END WIDGET REGISTRED -->
-
-        </div>        
+        </div>
         <div class="col-md-3">
-
-            <!-- START WIDGET REGISTRED -->
-            <div class="widget widget-default widget-item-icon" >
+            <div class="widget widget-default widget-item-icon" onclick="location.href='/Pegawai/PHL';">
                 <div class="widget-item-left">
                     <span class="fa fa-user"></span>
                 </div>
                 <div class="widget-data">
-                    <div class="widget-int num-count">375</div>
+                    <div class="widget-int num-count">@Model.TotalPHL</div>
                     <div class="widget-title">Registred PHL</div>
-                    <div class="widget-subtitle">On your website</div>
-                </div>               
+                    <div class="widget-subtitle">Data Aktif (@Model.TotalPHLAktif)</div>
+                </div>
+                <div class="widget-controls">
+                    <a asp-action="PHL" asp-controller="Pegawai" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top" title="Remove Widget"><span class="fa fa-times"></span></a>
+                </div>
             </div>
-            <!-- END WIDGET REGISTRED -->
-
         </div>
-        <div class="col-md-3">
-        </div>
+        <div class="col-md-3"></div>
         <div class="col-md-3">
 
             <!-- START WIDGET CLOCK -->
@@ -63,68 +45,244 @@
 
         </div>
     </div>
-    <!-- END WIDGETS -->
-
     <div class="row">
-        <div class="col-md-12">
-
-            <!-- START SALES BLOCK -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title-box">
-                        <h3>Sales</h3>
-                        <span>Sales activity by period you selected</span>
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Filter</strong></h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+                        </ul>
                     </div>
-                    <ul class="panel-controls panel-controls-title">                       
-                        <li><a href="#" class="panel-fullscreen rounded"><span class="fa fa-expand"></span></a></li>
-                    </ul>
-
-                </div>
-                <div class="panel-body">
-                    <div class="row stacked">
-                        <div class="col-md-12">
-                            <div class="progress-list">
-                                <div class="pull-left"><strong>In Queue</strong></div>
-                                <div class="pull-right">75%</div>
-                                <div class="progress progress-small progress-striped active">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">75%</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">NIK</label>
+                                    <div class="col-md-6">
+                                        <input id="nik" type="text" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="progress-list">
-                                <div class="pull-left"><strong>Shipped Products</strong></div>
-                                <div class="pull-right">450/500</div>
-                                <div class="progress progress-small progress-striped active">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">90%</div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">No Registrasi</label>
+                                    <div class="col-md-6">
+                                        <input id="noRegistrasi" type="text" class="form-control" />
+                                    </div>
+                                </div>                                
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Type Karyawan</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select class="form-control select" data-live-search="true">
+                                            <option value="0">K-II</option>
+                                            <option value="1">PHL</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="progress-list">
-                                <div class="pull-left"><strong class="text-danger">Returned Products</strong></div>
-                                <div class="pull-right">25/500</div>
-                                <div class="progress progress-small progress-striped active">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">5%</div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Status</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select class="form-control select" data-live-search="true">
+                                            <option value="1">Aktif</option>
+                                            <option value="0">Tidak Aktif</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="progress-list">
-                                <div class="pull-left"><strong class="text-warning">Progress Today</strong></div>
-                                <div class="pull-right">75/150</div>
-                                <div class="progress progress-small progress-striped active">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">50%</div>
-                                </div>
-                            </div>
-                            <p><span class="fa fa-warning"></span> Data update in end of each hour. You can update it manual by pressign update button</p>
-                        </div>                       
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default" id="clearForm"><i class="fa fa-refresh"></i>Clear Form</button>
+                        <button class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+                        <a asp-action="Search" asp-controller="Home" class="btn btn-primary pull-right">Search Detail</a>
                     </div>
                 </div>
             </div>
-            <!-- END SALES BLOCK -->
+        </div>
+        <div class="col-md-6">
+            <!-- START PROJECTS BLOCK -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title-box">
+                        <h3>Detail Datas</h3>
+                    </div>
+                    <ul class="panel-controls" style="margin-top: 2px;">
+                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body panel-body-table">                    
+                    <div class="row" style="padding-top: 10px">
+                        <div class="col-md-4" >
+                            <a asp-action="PHL" asp-controller="Pegawai" class="tile tile-info">
+                                <span style="font-size: 32px; line-height: 40px; font-weight: bold; font-family: arial;">@Model.TotalK2</span>
+                                <p>Total Data K-II</p>
+                                <div class="informer informer-warning"><span class="fa fa-caret-down"></span></div>
+                                <div class="informer informer-default dir-tr">@DateTime.Now.ToString("dd MM yyyy")</div>
+                            </a>
+                        </div>
+                        @foreach (var item in Model.K2JenisKelamin.OrderByDescending(m => m.Text))
+                        {
+                            <div class="col-md-4">
+                                <div class="tile tile-default">
+                                    <span style="font-size: 32px; line-height: 40px; font-weight: bold; font-family: arial;">@item.Total</span>
+                                    <p>Data K-II @item.Text</p>
+                                    <div class="informer informer-warning"><span class="fa fa-caret-down"></span></div>
+                                    <div class="informer informer-default dir-tr">@DateTime.Now.ToString("dd MM yyyy")</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a asp-action="PHL" asp-controller="Pegawai" class="tile tile-success">
+                                <span style="font-size: 32px; line-height: 40px; font-weight: bold; font-family: arial;">@Model.TotalPHL</span>
+                                <p>Total Data PHL</p>
+                                <div class="informer informer-warning"><span class="fa fa-caret-down"></span></div>
+                                <div class="informer informer-default dir-tr">@DateTime.Now.ToString("dd MM yyyy")</div>
+                            </a>
+                        </div>
+                        @foreach (var item in Model.PHLJenisKelamin.OrderByDescending(m => m.Text))
+                        {
+                            <div class="col-md-4">
+                                <div class="tile tile-default">
+                                    <span style="font-size: 32px; line-height: 40px; font-weight: bold; font-family: arial;">@item.Total</span>
+                                    <p>Data PHL @item.Text</p>
+                                    <div class="informer informer-warning"><span class="fa fa-caret-down"></span></div>
+                                    <div class="informer informer-default dir-tr">@DateTime.Now.ToString("dd MM yyyy")</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- END PROJECTS BLOCK -->
+
+        </div>
+    </div>
+    @* <div class="row">
+        <div class="col-md-12">
+            <!-- START PROJECTS BLOCK -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title-box">
+                        <h3>K-II</h3>
+                        <span>K-II details</span>
+                    </div>
+                    <ul class="panel-controls" style="margin-top: 2px;">
+                        <li><a asp-action="K2" asp-controller="Pegawai" class="panel-refresh"><span class="fa fa-plus"></span></a></li>
+                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body panel-body-table">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="80%">Detail</th>
+                                    <th width="10%">Total Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Total Data Aktif</strong></td>
+                                    <td><span class="label label-warning">@Model.TotalK2Aktif</span></td>
+                                </tr>
+                                @foreach (var item in Model.K2JenisKelamin.OrderByDescending(m => m.Text))
+                                {
+                                    <tr>
+                                        <td><strong>@item.Text</strong></td>
+                                        <td><span class="label label-warning">@item.Total</span></td>
+                                    </tr>
+                                }
+                                @foreach (var item in Model.K2Pendidikan.OrderBy(m => m.Text))
+                                {
+                                    <tr>
+                                        <td><strong>@item.Text</strong></td>
+                                        <td><span class="label label-warning">@item.Total</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!-- END PROJECTS BLOCK -->
 
         </div>
     </div>
 
-    <!-- START DASHBOARD CHART -->
-    <div class="chart-holder" id="dashboard-area-1" style="height: 200px;"></div>
-    <div class="block-full-width">
-    </div>
-    <!-- END DASHBOARD CHART -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- START PROJECTS BLOCK -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title-box">
+                        <h3>PHL</h3>
+                        <span>PHL details</span>
+                    </div>
+                    <ul class="panel-controls" style="margin-top: 2px;">
+                        <li><a asp-action="PHL" asp-controller="Pegawai" class="panel-refresh"><span class="fa fa-plus"></span></a></li>
+                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body panel-body-table">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="80%">Detail</th>
+                                    <th width="10%">Total Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Total Data Aktif</strong></td>
+                                    <td><span class="label label-warning">@Model.TotalPHLAktif</span></td>
+                                </tr>
+                                @foreach (var item in Model.PHLJenisKelamin.OrderByDescending(m => m.Text))
+                                {
+                                    <tr>
+                                        <td><strong>@item.Text</strong></td>
+                                        <td><span class="label label-warning">@item.Total</span></td>
+                                    </tr>
+                                }
+                                @foreach (var item in Model.PHLPendidikan.OrderBy(m => m.Text))
+                                {
+                                    <tr>
+                                        <td><strong>@item.Text</strong></td>
+                                        <td><span class="label label-warning">@item.Total</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
 
+                </div>
+            </div>
+            <!-- END PROJECTS BLOCK -->
+
+        </div>
+    </div> *@
 </div>

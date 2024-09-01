@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using WApp.Datas;
 using WApp.Helpers;
 using WApp.Models;
@@ -70,6 +71,213 @@ namespace WApp.Controllers
             return model;
         }
 
+        private List<PegawaiViewModel> GetPegawaiModelFromExcel(byte[] excelDataStream, Enums.PegawaiType type)
+        {
+            Stream stream = new MemoryStream(excelDataStream);
+            List<PegawaiViewModel> datas = [];
+
+            using var package = new ExcelPackage(stream);
+            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+            int rowCount = ExcelHelper.GetTotalRowCountByAnyNonNullData(worksheet);
+
+            //check format
+            if (type == Enums.PegawaiType.K2)
+            {
+                if ("NoRegistrasi*Name*JenisKelaminPendidikanProdiSatuanKerjaUnitKerjaAwalKerja(dd/mm/yyyy)AkhirKerja(dd/mm/yyyy)KeteranganStatus".ToLower().Trim() !=
+                    $"{worksheet.Cells[1, 1].Value}{worksheet.Cells[1, 2].Value}{worksheet.Cells[1, 3].Value}{worksheet.Cells[1, 4].Value}{worksheet.Cells[1, 5].Value}{worksheet.Cells[1, 6].Value}{worksheet.Cells[1, 7].Value}{worksheet.Cells[1, 8].Value}{worksheet.Cells[1, 9].Value}{worksheet.Cells[1, 10].Value}{worksheet.Cells[1, 11].Value}".Replace(" ", "").ToLower().Trim())
+                {
+                    throw new Exception($"The format excel tidak sesuai, silahkan Download Template.");
+                }
+            }
+            else
+            {
+                if ("NIK*Name*JenisKelaminPendidikanProdiSatuanKerjaUnitKerjaAwalKerja(dd/mm/yyyy)AkhirKerja(dd/mm/yyyy)KeteranganStatus".ToLower().Trim() !=
+                    $"{worksheet.Cells[1, 1].Value}{worksheet.Cells[1, 2].Value}{worksheet.Cells[1, 3].Value}{worksheet.Cells[1, 4].Value}{worksheet.Cells[1, 5].Value}{worksheet.Cells[1, 6].Value}{worksheet.Cells[1, 7].Value}{worksheet.Cells[1, 8].Value}{worksheet.Cells[1, 9].Value}{worksheet.Cells[1, 10].Value}{worksheet.Cells[1, 11].Value}".Replace(" ", "").ToLower().Trim())
+                {
+                    throw new Exception($"The format excel tidak sesuai, silahkan Download Template.");
+                }
+            }
+            for (int row = 2; row <= rowCount; row++)
+            {
+                var noRegistrasi = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(noRegistrasi))
+                    throw new Exception($"Row [{row}]: {string.Format(Constans.Label.IsRequired, type == Enums.PegawaiType.K2 ? "No Registrasi" : "NIK")}");
+
+                var nama = worksheet.Cells[row, 2].Value?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(nama))
+                    throw new Exception($"Row [{row}]: {string.Format(Constans.Label.IsRequired, "Nama")}");
+
+                var jenisKelamin = worksheet.Cells[row, 3].Value?.ToString()?.Trim();
+                var pendidikan = worksheet.Cells[row, 4].Value?.ToString()?.Trim();
+                var prodi = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
+                var satuanKerja = worksheet.Cells[row, 6].Value?.ToString()?.Trim();
+                var unitKerja = worksheet.Cells[row, 7].Value?.ToString()?.Trim();
+                var awalKerja = worksheet.Cells[row, 8].Value?.ToString()?.Trim();
+                if (!string.IsNullOrEmpty(awalKerja))
+                {
+                    var awalKerjaDate = ConverterHelper.StringToDateTime(awalKerja);
+                    if (!awalKerjaDate.HasValue)
+                        throw new Exception($"Row [{row}]: The format Awal Kerja is not correct, its should be dd/MM/yyyy.");
+                }
+
+                var akhirKerja = worksheet.Cells[row, 9].Value?.ToString()?.Trim();
+                if (!string.IsNullOrEmpty(akhirKerja))
+                {
+                    var akhirKerjaDate = ConverterHelper.StringToDateTime(awalKerja);
+                    if (!akhirKerjaDate.HasValue)
+                    {
+                        throw new Exception($"Row [{row}]: The format Akhir Kerja is not correct, its should be dd/MM/yyyy.");
+                    }
+                }
+                var keterangan = worksheet.Cells[row, 10].Value?.ToString()?.Trim();
+                var status = worksheet.Cells[row, 11].Value?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(status))
+                    throw new Exception($"Row [{row}]: {string.Format(Constans.Label.IsRequired, "Status")}");
+
+                var jenisKelaminEnum = EnumHelper.GetEnumValueFromDescription<Enums.JenisKelamin>(jenisKelamin);
+
+
+                datas.Add(new PegawaiViewModel
+                {
+                    Name = nama,
+                    Nomor = noRegistrasi,
+                    JenisKelamin = string.IsNullOrEmpty(jenisKelamin) ? null : jenisKelaminEnum,
+                    PendidikanText = pendidikan,
+                    ProdiText = prodi,
+                    SatuanKerjaText = satuanKerja,
+                    UnitKerjaText = unitKerja,
+                    TanggalAwal = awalKerja,
+                    TanggalAkhir = akhirKerja,
+                    Keterangan = keterangan,
+                    IsActive = status == "Aktif",
+                    Type = type
+                });
+            }
+
+            return datas;
+        }
+
+        private void SaveDataFromExcel(List<PegawaiViewModel> datas)
+        {
+            foreach (var item in datas)
+            {
+                var newID = Guid.NewGuid().ToString();
+
+                var pegawai = _context.Pegawais.FirstOrDefault(m => m.NIK == item.Nomor && m.Type == item.Type);
+                pegawai ??= new PegawaiModel
+                {
+                    Id = newID,
+                    CreatedBy = User?.Identity.Name,
+                    CreatedDate = DateTime.Now,
+                    UpdatedBy = User.Identity.Name,
+                    UpdatedDate = DateTime.Now,
+                    Type = item.Type,
+                };
+
+                pegawai.Name = item.Name;
+                pegawai.NIK = item.Nomor;
+                pegawai.JenisKelamin = item.JenisKelamin;
+
+                if (!string.IsNullOrEmpty(item.PendidikanText))
+                {
+                    var pendidikan = _context.Pendidikans.FirstOrDefault(m => m.Name.Equals(item.PendidikanText));
+                    if (pendidikan == null)
+                    {
+                        pendidikan = new PendidikanModel
+                        {
+                            CreatedBy = User?.Identity.Name,
+                            CreatedDate = DateTime.Now,
+                            UpdatedBy = User.Identity.Name,
+                            UpdatedDate = DateTime.Now,
+                            IsActive = true,
+                            Name = item.PendidikanText,
+                            Id = Guid.NewGuid().ToString()
+                        };
+
+                        _context.Pendidikans.Add(pendidikan);
+                    }
+
+                    pegawai.PendidikanID = pendidikan.Id;
+                }
+
+                if (!string.IsNullOrEmpty(item.ProdiText))
+                {
+                    var prodi = _context.Prodis.FirstOrDefault(m => m.Name.Equals(item.ProdiText));
+                    if (prodi == null)
+                    {
+                        prodi = new ProdiModel
+                        {
+                            CreatedBy = User?.Identity.Name,
+                            CreatedDate = DateTime.Now,
+                            UpdatedBy = User.Identity.Name,
+                            UpdatedDate = DateTime.Now,
+                            IsActive = true,
+                            Name = item.ProdiText,
+                            Id = Guid.NewGuid().ToString()
+                        };
+
+                        _context.Prodis.Add(prodi);
+                    }
+
+                    pegawai.ProdiID = prodi.Id;
+                }
+
+                if (!string.IsNullOrEmpty(item.SatuanKerjaText))
+                {
+                    var prodi = _context.SatuanKerjas.FirstOrDefault(m => m.Name.Equals(item.SatuanKerjaText));
+                    if (prodi == null)
+                    {
+                        prodi = new SatuanKerjaWilayahModel
+                        {
+                            CreatedBy = User?.Identity.Name,
+                            CreatedDate = DateTime.Now,
+                            UpdatedBy = User.Identity.Name,
+                            UpdatedDate = DateTime.Now,
+                            IsActive = true,
+                            Name = item.SatuanKerjaText,
+                            Id = Guid.NewGuid().ToString()
+                        };
+
+                        _context.SatuanKerjas.Add(prodi);
+                    }
+
+                    pegawai.SatuanKerjaID = prodi.Id;
+                }
+
+                if (!string.IsNullOrEmpty(item.UnitKerjaText))
+                {
+                    var prodi = _context.Poldas.FirstOrDefault(m => m.Name.Equals(item.UnitKerjaText));
+                    if (prodi == null)
+                    {
+                        prodi = new PoldaModel
+                        {
+                            CreatedBy = User?.Identity.Name,
+                            CreatedDate = DateTime.Now,
+                            UpdatedBy = User.Identity.Name,
+                            UpdatedDate = DateTime.Now,
+                            IsActive = true,
+                            Name = item.UnitKerjaText,
+                            Id = Guid.NewGuid().ToString()
+                        };
+
+                        _context.Poldas.Add(prodi);
+                    }
+
+                    pegawai.UnitKerjaID = prodi.Id;
+                }
+
+                pegawai.TanggalAwal = ConverterHelper.StringToDateTime(item.TanggalAwal);
+                pegawai.TanggalAkhir = ConverterHelper.StringToDateTime(item.TanggalAkhir);
+                pegawai.Keterangan = item.Keterangan;
+                pegawai.IsActive = item.IsActive;
+
+                if (newID == pegawai.Id)
+                    _context.Pegawais.Add(pegawai);
+                else
+                    _context.Pegawais.Update(pegawai);
+            }
+        }
+
         #region K-II
         public IActionResult K2()
         {
@@ -85,9 +293,8 @@ namespace WApp.Controllers
             {
                 var filters = param.AdditionalValues.ToList();
                 results = await (from pegawai in _context.Pegawais.Where(m =>
-                        m.Nomor.ToLower().Contains((filters[0] ?? string.Empty).ToLower()) &&
-                        m.NIK.ToLower().Contains((filters[1] ?? string.Empty).ToLower()) &&
-                        m.Name.ToLower().Contains((filters[2] ?? string.Empty).ToLower()) &&
+                        m.NIK.ToLower().Contains((filters[0] ?? string.Empty).ToLower()) &&
+                        m.Name.ToLower().Contains((filters[1] ?? string.Empty).ToLower()) &&
                         m.Type == Enums.PegawaiType.K2)
                                  join pen in _context.Pendidikans on pegawai.PendidikanID equals pen.Id into pendidikan
                                  from pen in pendidikan.DefaultIfEmpty()
@@ -249,6 +456,44 @@ namespace WApp.Controllers
                 return Ok(new { isSuccess = true });
             }
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UploadK2(IFormFile file)
+        {
+            var message = string.Empty;
+            bool systemError = false;
+            try
+            {
+                systemError = false;
+
+                if (!Path.GetExtension(file.FileName).Contains(".xls", StringComparison.OrdinalIgnoreCase))
+                    return Json(new { issuccess = systemError, error = "Format is not correct." });
+
+                byte[] fileBytes = [];
+                using (var ms = new MemoryStream())
+                {
+                    await file.CopyToAsync(ms);
+                    fileBytes = ms.ToArray();
+                };
+
+                var datas = GetPegawaiModelFromExcel(fileBytes, Enums.PegawaiType.K2);
+                SaveDataFromExcel(datas);
+                await _context.SaveChangesAsync();
+
+
+                return Json(new { issuccess = systemError, error = "Data berhasil di Upload." });
+            }
+            catch (Exception ex)
+            {
+                systemError = true;
+                message = ex.Message;
+            }
+
+            return Json(new { issuccess = systemError, error = message });
+        }
+
+       
         #endregion
 
         #region PHL
@@ -426,6 +671,41 @@ namespace WApp.Controllers
                 await _context.SaveChangesAsync();
                 return Ok(new { isSuccess = true });
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadPHL(IFormFile file)
+        {
+            var message = string.Empty;
+            bool systemError = false;
+            try
+            {
+                systemError = false;
+
+                if (!Path.GetExtension(file.FileName).Contains(".xls", StringComparison.OrdinalIgnoreCase))
+                    return Json(new { issuccess = systemError, error = "Format is not correct." });
+
+                byte[] fileBytes = [];
+                using (var ms = new MemoryStream())
+                {
+                    await file.CopyToAsync(ms);
+                    fileBytes = ms.ToArray();
+                };
+
+                var datas = GetPegawaiModelFromExcel(fileBytes, Enums.PegawaiType.PHL);
+                SaveDataFromExcel(datas);
+                await _context.SaveChangesAsync();
+
+
+                return Json(new { issuccess = systemError, error = "Data berhasil di Upload." });
+            }
+            catch (Exception ex)
+            {
+                systemError = true;
+                message = ex.Message;
+            }
+
+            return Json(new { issuccess = systemError, error = message });
         }
         #endregion
     }

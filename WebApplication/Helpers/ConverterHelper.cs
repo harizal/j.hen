@@ -4,8 +4,16 @@
     {
         public static DateTime? StringToDateTime(string? value)
         {
-            if(string.IsNullOrEmpty(value)) return null;
-            return DateTime.ParseExact(value, "dd/MM/yyyy", null);
+            try
+            {
+                if (string.IsNullOrEmpty(value)) return null;
+                if (value.Length > 10) return DateTime.Parse(value);
+                return DateTime.ParseExact(value, "dd/MM/yyyy", null);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static string? DateTimeToString(DateTime? value)

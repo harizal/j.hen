@@ -8,7 +8,10 @@
 
 <div class="login-container">
     <div class="login-box animated fadeInDown">
-        <div class="login-logo"></div>
+        @* <div class="login-logo"></div> *@
+        <div style="font-size: 48px;text-align: center;padding: 10px 10px 10px 10px;font-weight: bold; color: white">
+            SIPNONA
+        </div>
         <div class="login-body">
             <div class="login-title"><strong>Welcome</strong>, Please login</div>
             <form asp-action="Login" method="post" class="form-horizontal">
@@ -20,7 +23,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <input asp-for="Password" class="form-control" type="password"  placeholder="Password" />
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>

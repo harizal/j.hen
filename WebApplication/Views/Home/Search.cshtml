@@ -1,0 +1,160 @@
+﻿@using WApp.ViewModels
+@model PegawaiViewModel
+
+<ul class="breadcrumb">
+    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+    <li class="active">Pencarian</li>
+</ul>
+
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Filter</strong></h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">NIK</label>
+                                    <div class="col-md-6">
+                                        <input id="nik" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">No Registrasi</label>
+                                    <div class="col-md-6">
+                                        <input id="noRegistrasi" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple asp-items="Model.ListJenisKelamin" class="form-control selectmulti" data-live-search="true" style="width: 100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple asp-items="Model.ListPendidikan" class="form-control selectmulti" data-live-search="true">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Prodi</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple asp-items="Model.ListProdi" class="form-control selectmulti" data-live-search="true">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple asp-items="Model.ListSatuanKerja" class="form-control selectmulti" data-live-search="true">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple asp-items="Model.ListUnitKerja" class="form-control selectmulti" data-live-search="true">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Type Karyawan</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple class="form-control selectmulti" data-live-search="true">
+
+                                            <option value="0">K-II</option>
+                                            <option value="1">PHL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Status</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select multiple class="form-control selectmulti" data-live-search="true">
+
+                                            <option value="1">Aktif</option>
+                                            <option value="0">Tidak Aktif</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default" id="clearForm"><i class="fa fa-refresh"></i>Clear Form</button>
+                        <button class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">NIK :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">No Registasi :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">Pendidikan :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">Prodi :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">NIK</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(window).load(function () {
+        $(".selectmulti").selectpicker({ noneSelectedText: 'All' });
+    });
+</script>

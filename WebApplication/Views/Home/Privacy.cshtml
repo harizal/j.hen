@@ -3,6 +3,150 @@
 </div>
 
 <div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Filter</strong></h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">                               
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">NIK</label>
+                                    <div class="col-md-9">
+                                        <input id="nik" type="text" class="form-control" />
+                                    </div>
+                                </div>                                
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @* <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select> *@
+                                        <select class="form-control select" data-live-search="true">
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @* <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select> *@
+                                        <select class="form-control select" data-live-search="true">
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Prodi</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @* <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select> *@
+                                        <select class="form-control select" data-live-search="true">
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">No Registrasi</label>
+                                    <div class="col-md-9">
+                                        <input id="noRegistrasi" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @* <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select> *@
+                                        <select class="form-control select" data-live-search="true">
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @* <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select> *@
+                                        <select class="form-control select" data-live-search="true">
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Status</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @* <select asp-items="Model.ListJenisKelamin" asp-for="JenisKelamin" class="form-control select" data-live-search="true"></select> *@
+                                        <select class="form-control select" data-live-search="true">
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-default" id="clearForm"><i class="fa fa-refresh"></i>Clear Form</button>
+                        <button class="btn btn-primary" ><i class="fa fa-search"></i>Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">NIK :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">No Registasi :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">Pendidikan :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">Prodi :</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-bottom: 0px">
+                                <label class="col-md-3 col-xs-12 control-label">NIK</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <p class="form-control">086123873</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="row">
         <div class="col-md-12">
@@ -1185,7 +1329,7 @@
                                 <td>27</td>
                                 <td>2011/01/25</td>
                                 <td>$112,000</td>
-                                </tr>
+                            </tr>
                             <tr>
                                 <td>Michelle House</td>
                                 <td>Integration Specialist</td>
@@ -1400,7 +1544,8 @@
                                 <td>New York</td>
                                 <td>27</td>
                                 <td>2011/01/25</td>
-                                <td>$112,000</td></tr>
+                                <td>$112,000</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
