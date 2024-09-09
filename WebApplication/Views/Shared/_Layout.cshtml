@@ -21,7 +21,7 @@
             }
         </style>
         <link rel="stylesheet" type="text/css" id="theme" href="~/css/theme-default.css" />
-        <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />        
+        <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />
         <!-- EOF CSS INCLUDE -->
         <script type="text/javascript" src="~/js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="~/js/plugins/jquery/jquery-ui.min.js"></script>
@@ -66,7 +66,7 @@
                 </li>
                 @* <li class="xn-title">Systems</li>
                 <li>
-                    <a asp-action="Index" asp-controller="Account"><span class="fa fa-user"></span> <span class="xn-text">Users</span></a>
+                <a asp-action="Index" asp-controller="Account"><span class="fa fa-user"></span> <span class="xn-text">Users</span></a>
                 </li> *@
             </ul>
             <!-- END X-NAVIGATION -->
@@ -136,7 +136,7 @@
     <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-select.js"></script>
 
-    <script type="text/javascript" src="js/settings.js"></script>
+    <script type="text/javascript" src="~/js/settings.js"></script>
     <script type="text/javascript" src="~/js/plugins.js"></script>
     <script type="text/javascript" src="~/js/actions.js"></script>
     <script type="text/javascript" src="~/lib/sweetalert/sweetalert.min.js"></script>
@@ -148,5 +148,105 @@
         @Html.Raw(TempData["notification"])
         @message
     }
+    <div class="theme-settings">
+        <div class="ts-button">
+            <span class="fa fa-cogs fa-spin"></span>
+        </div>
+        <div class="ts-body">
+            <div class="ts-title">Themes</div>
+            <div class="ts-themes">
+                <a href="#" class="active" data-theme="../css/theme-default.css">
+                    <img src="../img/themes/default.jpg" />
+                </a>
+                <a href="#" data-theme="../css/theme-brown.css">
+                    <img src="../img/themes/brown.jpg" />
+                </a>
+                <a href="#" data-theme="../css/theme-blue.css">
+                    <img src="../img/themes/blue.jpg" />
+                </a>
+                <a href="#" data-theme="../css/theme-white.css">
+                    <img src="../img/themes/light.jpg" />
+                </a>
+                <a href="#" data-theme="../css/theme-black.css">
+                    <img src="../img/themes/black.jpg" />
+                </a>
+            </div>
+            <div class="ts-title">Layout</div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="iradio_minimal-grey checked" style="position: relative;">
+                        <input type="radio" class="iradio" name="st_layout_boxed" value="0" checked="" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Full Width
+                </label>
+            </div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="iradio_minimal-grey" style="position: relative;">
+                        <input type="radio" class="iradio" name="st_layout_boxed" value="1" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Boxed
+                </label>
+            </div>
+            <div class="ts-title">Options</div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="icheckbox_minimal-grey" style="position: relative;">
+                        <input type="checkbox" class="icheckbox" name="st_head_fixed" value="1" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Fixed Header
+                </label>
+            </div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="icheckbox_minimal-grey checked" style="position: relative;">
+                        <input type="checkbox" class="icheckbox" name="st_sb_fixed" value="1" checked="" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Fixed Sidebar
+                </label>
+            </div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="icheckbox_minimal-grey checked" style="position: relative;">
+                        <input type="checkbox" class="icheckbox" name="st_sb_scroll" value="1" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Scroll Sidebar
+                </label>
+            </div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="icheckbox_minimal-grey" style="position: relative;">
+                        <input type="checkbox" class="icheckbox" name="st_sb_right" value="1" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Right Sidebar
+                </label>
+            </div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="icheckbox_minimal-grey" style="position: relative;">
+                        <input type="checkbox" class="icheckbox" name="st_sb_custom" value="1" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Custom Navigation
+                </label>
+            </div>
+            <div class="ts-row">
+                <label class="check">
+                    <div class="icheckbox_minimal-grey" style="position: relative;">
+                        <input type="checkbox" class="icheckbox" name="st_sb_toggled" value="1" style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                    </div>
+                    Toggled Navigation
+                </label>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
