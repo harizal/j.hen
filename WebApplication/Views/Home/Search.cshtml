@@ -35,21 +35,21 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple asp-items="Model.ListJenisKelamin" class="form-control selectmulti" data-live-search="true" style="width: 100%">
+                                        <select asp-for="JenisKelamin" multiple asp-items="Model.ListJenisKelamin" class="form-control selectmulti" data-live-search="true" style="width: 100%">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple asp-items="Model.ListPendidikan" class="form-control selectmulti" data-live-search="true">
+                                        <select asp-for="PendidikanID" multiple asp-items="Model.ListPendidikan" class="form-control selectmulti" data-live-search="true">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Prodi</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple asp-items="Model.ListProdi" class="form-control selectmulti" data-live-search="true">
+                                        <select asp-for="ProdiID" multiple asp-items="Model.ListProdi" class="form-control selectmulti" data-live-search="true">
                                         </select>
                                     </div>
                                 </div>
@@ -59,21 +59,21 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple asp-items="Model.ListSatuanKerja" class="form-control selectmulti" data-live-search="true">
+                                        <select asp-for="SatuanKerjaID" multiple asp-items="Model.ListSatuanKerja" class="form-control selectmulti" data-live-search="true">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple asp-items="Model.ListUnitKerja" class="form-control selectmulti" data-live-search="true">
+                                        <select asp-for="UnitKerjaID" multiple asp-items="Model.ListUnitKerja" class="form-control selectmulti" data-live-search="true">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Type Karyawan</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple class="form-control selectmulti" data-live-search="true">
+                                        <select asp-for="Type" multiple class="form-control selectmulti" data-live-search="true">
 
                                             <option value="0">K-II</option>
                                             <option value="1">PHL</option>
@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Status</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select multiple class="form-control selectmulti" data-live-search="true">
+                                        <select asp-for="StatusID" multiple class="form-control selectmulti" data-live-search="true">
 
                                             <option value="1">Aktif</option>
                                             <option value="0">Tidak Aktif</option>
@@ -94,67 +94,181 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <button class="btn btn-default" id="clearForm"><i class="fa fa-refresh"></i>Clear Form</button>
-                        <button class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+                        <button class="btn btn-default" id="clearForm" onClick="ClearForm()"><i class="fa fa-refresh"></i>Clear Form</button>
+                        <button class="btn btn-primary" onClick="Search()"><i class="fa fa-search"></i>Search</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="row">
-        <div class="col-md-12 form-horizontal">
+        <div class="col-md-12">
+            <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group" style="margin-bottom: 0px">
-                                <label class="col-md-3 col-xs-12 control-label">NIK :</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <p class="form-control">086123873</p>
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0px">
-                                <label class="col-md-3 col-xs-12 control-label">No Registasi :</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <p class="form-control">086123873</p>
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0px">
-                                <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin :</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <p class="form-control">086123873</p>
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0px">
-                                <label class="col-md-3 col-xs-12 control-label">Pendidikan :</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <p class="form-control">086123873</p>
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0px">
-                                <label class="col-md-3 col-xs-12 control-label">Prodi :</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <p class="form-control">086123873</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group" style="margin-bottom: 0px">
-                                <label class="col-md-3 col-xs-12 control-label">NIK</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <p class="form-control">086123873</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <table id="tableData" class="table display">
+                        <thead style="display: none">
+                            <tr>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    var datatable = null;
+
     $(window).load(function () {
         $(".selectmulti").selectpicker({ noneSelectedText: 'All' });
+        bindDatatable();
+        ClearForm();
     });
+
+    function ClearForm() {
+        $("#nik").val('');
+        $("#noRegistrasi").val('');
+        $(".selectmulti").val("");
+        $(".selectmulti").selectpicker("refresh");
+    }
+
+    function bindDatatable() {
+        datatable = $('#tableData')
+            .DataTable({
+                ajax: {
+                    url: "/Home/GetDatas",
+                    type: "POST",
+                    async: true,
+                    data: function (data) {
+                        data.additionalValues = [
+                            $("#nik").val(),
+                            $("#noRegistrasi").val(),
+                            $("#JenisKelamin").val(),
+                            $("#PendidikanID").val(),
+                            $("#ProdiID").val(),
+                            $("#SatuanKerjaID").val(),
+                            $("#UnitKerjaID").val(),
+                            $("#Type").val(),
+                            $("#StatusID").val(),
+                        ];
+                        return data;
+                    }
+                },
+                "language": {
+                    'processing': '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                },
+                "columns": [
+                    {
+                        "data": "nik",
+                        "render": function (data, type, row, meta) {
+                            var statusStyle = row.isActive ? "label-success" : "label-danger";
+                            var status = row.isActive ? "Active" : "Non Active";
+                            return `<div class="panel panel-default"><div class="panel-body">
+                                <div class="row">
+                                         <div class="col-md-12">
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 control-label" style="padding-top: 7px;">NIK :</label>
+                                           </div>
+                                           <div class="col-md-2">
+                                             <div class="col-xs-12">
+                                                   <p class="form-control">${row.nik}</p>
+                                             </div>
+                                           </div>
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">No Registration :</label>
+                                           </div>
+                                           <div class="col-md-2">
+                                             <div class="col-xs-12">
+                                                   <p class="form-control">${row.nomor}</p>
+                                             </div>
+                                           </div>
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Jenis Kelamin :</label>
+                                           </div>
+                                           <div class="col-md-2">
+                                             <div class="col-xs-12">
+                                                       <p class="form-control">${row.jenisKelaminText}</p>
+                                             </div>
+                                           </div>
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Status :</label>
+                                           </div>
+                                           <div class="col-md-2">
+                                             <div class="col-xs-12">
+                                                               <p class="form-control ${statusStyle}">${status}</p>
+                                             </div>
+                                           </div>
+                                         </div>
+                                       </div>
+                                       <div class="row">
+                                         <div class="col-md-12">
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 control-label" style="padding-top: 7px;">Pendidikan :</label>
+                                           </div>
+                                           <div class="col-md-5">
+                                             <div class="col-xs-12">
+                                                   <p class="form-control">${row.pendidikanText}</p>
+                                             </div>
+                                           </div>
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Prodi :</label>
+                                           </div>
+                                           <div class="col-md-5">
+                                             <div class="col-xs-12">
+                                                   <p class="form-control">${row.prodiText}</p>
+                                             </div>
+                                           </div>
+                                         </div>
+                                       </div>
+                                       <div class="row">
+                                         <div class="col-md-12">
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 control-label" style="padding-top: 7px;">Satuan Kerja :</label>
+                                           </div>
+                                           <div class="col-md-5">
+                                             <div class="col-xs-12">
+                                               <p class="form-control">${row.satuanKerjaText}</p>
+                                             </div>
+                                           </div>
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Unit Kerja :</label>
+                                           </div>
+                                           <div class="col-md-5">
+                                             <div class="col-xs-12">
+                                               <p class="form-control">${row.unitKerjaText}</p>
+                                             </div>
+                                           </div>
+                                         </div>
+                                       </div>
+                                       <div class="row">
+                                         <div class="col-md-12">
+                                           <div class="col-md-1">
+                                             <label class="col-md-3 control-label" style="padding-top: 7px;">Type :</label>
+                                           </div>
+                                           <div class="col-md-2">
+                                             <div class="col-xs-12">
+                                                   <p class="form-control">${row.typeText}</p>
+                                             </div>
+                                           </div>
+                                               </div>
+                                                   </div>
+                                           <div class="row" style="padding-left: 30px">
+                                                <button class="btn btn-primary" ><i class="fa fa-pencil"></i>Edit</button>
+                                               </div></div></div>`
+                        }
+                    }
+                ],
+                serverSide: true,
+                searching: false,
+                ordering: false,
+                scrollX: true
+            });
+    }
+
+    function Search() {
+        datatable.ajax.reload();
+    }
+
 </script>

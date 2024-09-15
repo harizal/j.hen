@@ -58,6 +58,7 @@ namespace WApp.ViewModels
     public class PegawaiViewModel : BaseModel
     {
         public PegawaiType Type { get; set; }
+        public string TypeText { get; set; }
         public string? Nomor { get; set; }
         [Required]
         public string? NIK { get; set; }
