@@ -59,21 +59,21 @@
                         <div class="row">
                             <div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">NIK</label>
+                                    <label class="col-md-3 control-label">NIK/No Registrasi</label>
                                     <div class="col-md-6">
                                         <input id="nik" type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">No Registrasi</label>
+                                    <label class="col-md-3 control-label">Nama</label>
                                     <div class="col-md-6">
                                         <input id="noRegistrasi" type="text" class="form-control" />
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Type Karyawan</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select class="form-control select" data-live-search="true">
+                                        <select id="type" class="form-control select" data-live-search="true">
                                             <option value="0">K-II</option>
                                             <option value="1">PHL</option>
                                         </select>
@@ -82,18 +82,18 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Status</label>
                                     <div class="col-md-6 col-xs-12">
-                                        <select class="form-control select" data-live-search="true">
+                                        <select id="status" class="form-control select" data-live-search="true">
                                             <option value="1">Aktif</option>
                                             <option value="0">Tidak Aktif</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <button class="btn btn-default" id="clearForm"><i class="fa fa-refresh"></i>Clear Form</button>
-                        <button class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+                        <button class="btn btn-default" id="clearForm" onClick="ClearForm()"><i class="fa fa-refresh"></i>Clear Form</button>
+                        <button class="btn btn-primary" id="btnSearch" onClick="Search()"><i class="fa fa-search"></i>Search</button>
                         <a asp-action="Search" asp-controller="Home" class="btn btn-primary pull-right">Search Detail</a>
                     </div>
                 </div>
@@ -117,9 +117,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="panel-body panel-body-table">                    
+                <div class="panel-body panel-body-table">
                     <div class="row" style="padding-top: 10px">
-                        <div class="col-md-4" >
+                        <div class="col-md-4">
                             <a asp-action="K2" asp-controller="Pegawai" class="tile tile-info">
                                 <span style="font-size: 32px; line-height: 40px; font-weight: bold; font-family: arial;">@Model.TotalK2</span>
                                 <p>Total Data K-II</p>
@@ -166,123 +166,16 @@
 
         </div>
     </div>
-    @* <div class="row">
-        <div class="col-md-12">
-            <!-- START PROJECTS BLOCK -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title-box">
-                        <h3>K-II</h3>
-                        <span>K-II details</span>
-                    </div>
-                    <ul class="panel-controls" style="margin-top: 2px;">
-                        <li><a asp-action="K2" asp-controller="Pegawai" class="panel-refresh"><span class="fa fa-plus"></span></a></li>
-                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
-                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel-body panel-body-table">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th width="80%">Detail</th>
-                                    <th width="10%">Total Data</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Total Data Aktif</strong></td>
-                                    <td><span class="label label-warning">@Model.TotalK2Aktif</span></td>
-                                </tr>
-                                @foreach (var item in Model.K2JenisKelamin.OrderByDescending(m => m.Text))
-                                {
-                                    <tr>
-                                        <td><strong>@item.Text</strong></td>
-                                        <td><span class="label label-warning">@item.Total</span></td>
-                                    </tr>
-                                }
-                                @foreach (var item in Model.K2Pendidikan.OrderBy(m => m.Text))
-                                {
-                                    <tr>
-                                        <td><strong>@item.Text</strong></td>
-                                        <td><span class="label label-warning">@item.Total</span></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-            <!-- END PROJECTS BLOCK -->
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <!-- START PROJECTS BLOCK -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title-box">
-                        <h3>PHL</h3>
-                        <span>PHL details</span>
-                    </div>
-                    <ul class="panel-controls" style="margin-top: 2px;">
-                        <li><a asp-action="PHL" asp-controller="Pegawai" class="panel-refresh"><span class="fa fa-plus"></span></a></li>
-                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
-                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel-body panel-body-table">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th width="80%">Detail</th>
-                                    <th width="10%">Total Data</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Total Data Aktif</strong></td>
-                                    <td><span class="label label-warning">@Model.TotalPHLAktif</span></td>
-                                </tr>
-                                @foreach (var item in Model.PHLJenisKelamin.OrderByDescending(m => m.Text))
-                                {
-                                    <tr>
-                                        <td><strong>@item.Text</strong></td>
-                                        <td><span class="label label-warning">@item.Total</span></td>
-                                    </tr>
-                                }
-                                @foreach (var item in Model.PHLPendidikan.OrderBy(m => m.Text))
-                                {
-                                    <tr>
-                                        <td><strong>@item.Text</strong></td>
-                                        <td><span class="label label-warning">@item.Total</span></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-            <!-- END PROJECTS BLOCK -->
-
-        </div>
-    </div> *@
 </div>
+
+<script>
+    function ClearForm() {
+        $("#nik").val('');
+        $("#noRegistrasi").val('');
+    }
+
+    function Search(){
+        var url = '/Home/Search?name=' + encodeURIComponent($("#noRegistrasi").val()) + '&nik=' + encodeURIComponent($("#nik").val());
+        window.location.href = url;
+    }
+</script>

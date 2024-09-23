@@ -1,4 +1,5 @@
-﻿@using WApp.ViewModels
+﻿@using WApp.Utlis
+@using WApp.ViewModels
 @model PegawaiViewModel
 
 <ul class="breadcrumb">
@@ -21,15 +22,15 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">NIK</label>
+                                    <label class="col-md-3 control-label">NIK/No Registrasi</label>
                                     <div class="col-md-6">
-                                        <input id="nik" type="text" class="form-control" />
+                                        <input asp-for="NIK" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">No Registrasi</label>
+                                    <label class="col-md-3 control-label">Nama</label>
                                     <div class="col-md-6">
-                                        <input id="noRegistrasi" type="text" class="form-control" />
+                                        <input asp-for="Name" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -75,8 +76,8 @@
                                     <div class="col-md-6 col-xs-12">
                                         <select asp-for="Type" multiple class="form-control selectmulti" data-live-search="true">
 
-                                            <option value="0">K-II</option>
-                                            <option value="1">PHL</option>
+                                            <option value="@(Enums.PegawaiType.K2)">K-II</option>
+                                            <option value="@(Enums.PegawaiType.PHL)">PHL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -124,12 +125,11 @@
     $(window).load(function () {
         $(".selectmulti").selectpicker({ noneSelectedText: 'All' });
         bindDatatable();
-        ClearForm();
     });
 
     function ClearForm() {
-        $("#nik").val('');
-        $("#noRegistrasi").val('');
+        $("#NIK").val('');
+        $("#Name").val('');
         $(".selectmulti").val("");
         $(".selectmulti").selectpicker("refresh");
     }
@@ -142,17 +142,19 @@
                     type: "POST",
                     async: true,
                     data: function (data) {
-                        data.additionalValues = [
-                            $("#nik").val(),
-                            $("#noRegistrasi").val(),
-                            $("#JenisKelamin").val(),
-                            $("#PendidikanID").val(),
-                            $("#ProdiID").val(),
-                            $("#SatuanKerjaID").val(),
-                            $("#UnitKerjaID").val(),
-                            $("#Type").val(),
-                            $("#StatusID").val(),
-                        ];
+                        var additionalValues = [];
+                        additionalValues.push($("#nik").val());
+                        additionalValues.push($("#Name").val());
+                        additionalValues.push($("#JenisKelamin").val() + "");
+                        additionalValues.push($("#PendidikanID").val() + "");
+                        additionalValues.push($("#ProdiID").val() + "");
+                        additionalValues.push($("#SatuanKerjaID").val() + "");
+                        additionalValues.push($("#UnitKerjaID").val() + "");
+                        additionalValues.push($("#Type").val() + "");
+                        additionalValues.push($("#StatusID").val() + "");
+
+                        data.additionalValues = additionalValues;
+
                         return data;
                     }
                 },
@@ -166,97 +168,107 @@
                             var statusStyle = row.isActive ? "label-success" : "label-danger";
                             var status = row.isActive ? "Active" : "Non Active";
                             return `<div class="panel panel-default"><div class="panel-body">
-                                <div class="row">
-                                         <div class="col-md-12">
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 control-label" style="padding-top: 7px;">NIK :</label>
-                                           </div>
-                                           <div class="col-md-2">
-                                             <div class="col-xs-12">
-                                                   <p class="form-control">${row.nik}</p>
-                                             </div>
-                                           </div>
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">No Registration :</label>
-                                           </div>
-                                           <div class="col-md-2">
-                                             <div class="col-xs-12">
-                                                   <p class="form-control">${row.nomor}</p>
-                                             </div>
-                                           </div>
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Jenis Kelamin :</label>
-                                           </div>
-                                           <div class="col-md-2">
-                                             <div class="col-xs-12">
-                                                       <p class="form-control">${row.jenisKelaminText}</p>
-                                             </div>
-                                           </div>
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Status :</label>
-                                           </div>
-                                           <div class="col-md-2">
-                                             <div class="col-xs-12">
-                                                               <p class="form-control ${statusStyle}">${status}</p>
-                                             </div>
-                                           </div>
-                                         </div>
-                                       </div>
-                                       <div class="row">
-                                         <div class="col-md-12">
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 control-label" style="padding-top: 7px;">Pendidikan :</label>
-                                           </div>
-                                           <div class="col-md-5">
-                                             <div class="col-xs-12">
-                                                   <p class="form-control">${row.pendidikanText}</p>
-                                             </div>
-                                           </div>
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Prodi :</label>
-                                           </div>
-                                           <div class="col-md-5">
-                                             <div class="col-xs-12">
-                                                   <p class="form-control">${row.prodiText}</p>
-                                             </div>
-                                           </div>
-                                         </div>
-                                       </div>
-                                       <div class="row">
-                                         <div class="col-md-12">
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 control-label" style="padding-top: 7px;">Satuan Kerja :</label>
-                                           </div>
-                                           <div class="col-md-5">
-                                             <div class="col-xs-12">
-                                               <p class="form-control">${row.satuanKerjaText}</p>
-                                             </div>
-                                           </div>
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Unit Kerja :</label>
-                                           </div>
-                                           <div class="col-md-5">
-                                             <div class="col-xs-12">
-                                               <p class="form-control">${row.unitKerjaText}</p>
-                                             </div>
-                                           </div>
-                                         </div>
-                                       </div>
-                                       <div class="row">
-                                         <div class="col-md-12">
-                                           <div class="col-md-1">
-                                             <label class="col-md-3 control-label" style="padding-top: 7px;">Type :</label>
-                                           </div>
-                                           <div class="col-md-2">
-                                             <div class="col-xs-12">
-                                                   <p class="form-control">${row.typeText}</p>
-                                             </div>
-                                           </div>
+                                    <div class="row">
+                                             <div class="col-md-12">
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 control-label" style="padding-top: 7px;">NIK :</label>
                                                </div>
+                                               <div class="col-md-2">
+                                                 <div class="col-xs-12">
+                                                       <p class="form-control">${row.nik}</p>
+                                                 </div>
+                                               </div>
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">No Registration :</label>
+                                               </div>
+                                               <div class="col-md-2">
+                                                 <div class="col-xs-12">
+                                                       <p class="form-control">${row.nomor}</p>
+                                                 </div>
+                                               </div>
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Jenis Kelamin :</label>
+                                               </div>
+                                               <div class="col-md-2">
+                                                 <div class="col-xs-12">
+                                                           <p class="form-control">${row.jenisKelaminText}</p>
+                                                 </div>
+                                               </div>
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Status :</label>
+                                               </div>
+                                               <div class="col-md-2">
+                                                 <div class="col-xs-12">
+                                                                   <p class="form-control ${statusStyle}">${status}</p>
+                                                 </div>
+                                               </div>
+                                             </div>
+                                           </div>
+                                           <div class="row">
+                                             <div class="col-md-12">
+                                                 <div class="col-md-1">
+                                                     <label class="col-md-3 control-label" style="padding-top: 7px;">Nama :</label>
                                                    </div>
-                                           <div class="row" style="padding-left: 30px">
-                                                <button class="btn btn-primary" ><i class="fa fa-pencil"></i>Edit</button>
-                                               </div></div></div>`
+                                                   <div class="col-md-5">
+                                                     <div class="col-xs-12">
+                                                           <p class="form-control">${row.name}</p>
+                                                     </div>
+                                                   </div>
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 control-label" style="padding-top: 7px;">Pendidikan :</label>
+                                               </div>
+                                               <div class="col-md-5">
+                                                 <div class="col-xs-12">
+                                                       <p class="form-control">${row.pendidikanText}</p>
+                                                 </div>
+                                               </div>
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Prodi :</label>
+                                               </div>
+                                               <div class="col-md-5">
+                                                 <div class="col-xs-12">
+                                                       <p class="form-control">${row.prodiText}</p>
+                                                 </div>
+                                               </div>
+                                                    <div class="col-md-1">
+                                                     <label class="col-md-3 control-label" style="padding-top: 7px;">Satuan Kerja :</label>
+                                                   </div>
+                                                   <div class="col-md-5">
+                                                     <div class="col-xs-12">
+                                                       <p class="form-control">${row.satuanKerjaText}</p>
+                                                     </div>
+                                                   </div>
+                                             </div>
+                                           </div>
+                                           <div class="row">
+                                             <div class="col-md-12">
+
+                                               <div class="col-md-1">
+                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Unit Kerja :</label>
+                                               </div>
+                                               <div class="col-md-5">
+                                                 <div class="col-xs-12">
+                                                   <p class="form-control">${row.unitKerjaText}</p>
+                                                 </div>
+                                               </div>
+                                                   <div class="col-md-1">
+                                                     <label class="col-md-3 control-label" style="padding-top: 7px;">Type :</label>
+                                                   </div>
+                                                   <div class="col-md-2">
+                                                     <div class="col-xs-12">
+                                                           <p class="form-control">${row.typeText}</p>
+                                                     </div>
+                                                   </div>
+                                             </div>
+                                           </div>
+                                           <div class="row">
+                                             <div class="col-md-12">
+
+                                                   </div>
+                                                       </div>
+                                               <div class="row" style="padding-left: 30px">
+                                                    <button class="btn btn-primary" ><i class="fa fa-pencil"></i>Edit</button>
+                                                   </div></div></div>`
                         }
                     }
                 ],

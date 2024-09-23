@@ -1,4 +1,5 @@
-﻿@using WApp.ViewModels
+﻿@using WApp.Utlis
+@using WApp.ViewModels
 @model PegawaiViewModel
 
 <ul class="breadcrumb">
@@ -16,6 +17,7 @@
                         <h3 class="panel-title"><strong>Create K-II</strong></h3>
                     </div>
                     <input asp-for="Id" type="hidden" />
+                    <input asp-for="Type" type="hidden" value="@Enums.PegawaiType.K2" />
 
                     <div class="panel-body">
                         <div class="row">
