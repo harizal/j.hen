@@ -1,252 +1,397 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Routing
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
-        <!-- META SECTION -->
-        <title>@WApp.Utlis.Constans.ApplicationName</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    <title>
+        SIPNONA by Creative Tim
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="~/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="~/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="~/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="~/assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <!-- <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script> -->
+    <script type="text/javascript" src="~/js/plugins/jquery/jquery.min.js"></script>
+    <style>
+        .dt-column-title {
+            font-size: .65rem;
+        }
 
-        <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
-        <!-- END META SECTION -->
-        <!-- CSS INCLUDE -->
-        <style>
-            div.dt-container .dt-input {
-                margin-right: 10px !important;
-            }
+        .text-sm {
+            font-size: .875rem !important
+        }
 
-            .table {
-                white-space: nowrap;
-            }
-        </style>
-        <link rel="stylesheet" type="text/css" id="theme" href="~/css/theme-default.css" />
-        <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />
-        <!-- EOF CSS INCLUDE -->
-        <script type="text/javascript" src="~/js/plugins/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="~/js/plugins/jquery/jquery-ui.min.js"></script>
-    </head>
+        div.dt-container div.dt-layout-row {
+            margin: 0;
+        }
+
+        .dt-layout-cell.dt-layout-start {
+            padding-top: 10px;
+        }
+
+        .dt-layout-cell.dt-layout-end {
+            padding-top: 10px;
+        }
+
+        div#tableData_info {
+            font-size: .875rem;
+        }
+
+        .dt-paging{
+            font-size: 0.75rem;
+        }
+
+    </style>
 </head>
-<body>
-    <!-- START PAGE CONTAINER -->
-    <div class="page-container">
-        <!-- START PAGE SIDEBAR -->
-        <div class="page-sidebar">
-            <!-- START X-NAVIGATION -->
-            <ul class="x-navigation">
-                <li class="xn-logo">
-                    <a asp-action="index" asp-controller="Home">Admin</a>
-                    <a href="#" class="x-navigation-control"></a>
-                </li>
-                <li class="xn-profile">
-                    <a href="#" class="profile-mini">
-                        <img src="~/assets/images/users/avatar.jpg" alt="John Doe" />
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+        <div class="sidenav-header">
+            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+            <a class="navbar-brand m-0" href="/" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Lambang_Polri.png" class="navbar-brand-img h-100" alt="main_logo" style="margin-bottom: 13px;">
+                <span class="ms-1 font-weight-bold">SIPNONA</span>
+            </a>
+        </div>
+        <hr class="horizontal dark mt-0">
+        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link @(IsActive("Home", "Index") ? "active" : "")" href="/">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>shop </title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(0.000000, 148.000000)">
+                                                <path class="color-background opacity-6" d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"></path>
+                                                <path class="color-background" d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
-                    <div class="profile">
-                        <div class="profile-image">
-                            <img src="~/assets/images/users/avatar.jpg" alt="John Doe" />
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Pegawai" asp-action="K2" class="nav-link @(IsActive("Pegawai", "K2") ? "active" : "")">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>office</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(154.000000, 300.000000)">
+                                                <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
+                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
                         </div>
-                        <div class="profile-data">
-                            <div class="profile-data-name">@User.Identity?.Name</div>
+                        <span class="nav-link-text ms-1">K-II</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(IsActive("Pegawai", "PHL") ? "active" : "")" asp-controller="Pegawai" asp-action="PHL">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>credit-card</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(154.000000, 300.000000)">
+                                                <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
+                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">PHL</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Master Pages</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  @(IsActive("Master", "Polda") ? "active" : "")" asp-controller="Master" asp-action="Polda">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>customer-support</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(154.000000, 300.000000)">
+                                                <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
+                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Unit Kerja</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(IsActive("Master", "SatuanKerja") ? "active" : "")" asp-controller="Master" asp-action="SatuanKerja">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>document</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(154.000000, 300.000000)">
+                                                <path class="color-background opacity-6" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"></path>
+                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Satuan Kerja</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(IsActive("Master", "Pendidikan") ? "active" : "")" asp-controller="Master" asp-action="Pendidikan">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>spaceship</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(154.000000, 300.000000)">
+                                                <path class="color-background opacity-6" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"></path>
+                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Pendidikan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(IsActive("Master", "Prodi") ? "active" : "")" asp-controller="Master" asp-action="Prodi">
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>spaceship</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(154.000000, 300.000000)">
+                                                <path class="color-background opacity-6" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"></path>
+                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Prodi</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl position-sticky blur shadow-blur mt-4 left-auto top-1 z-index-sticky" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                @await Component.InvokeAsync("Breadcrumb", new { breadcrumbs = ViewBag.Breadcrumbs })
+
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        <div class="input-group" style="display:none;">
+                            <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" placeholder="Type here...">
                         </div>
                     </div>
-                </li>
-                <li class="xn-title">Master Data</li>
-                <li>
-                    <a asp-action="Polda" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Unit Kerja</span></a>
-                    <a asp-action="SatuanKerja" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Satuan Kerja</span></a>
-                    <a asp-action="Pendidikan" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Pendidikan</span></a>
-                    <a asp-action="Prodi" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Prodi</span></a>
-                    @* <a asp-action="Status" asp-controller="Master"><span class="fa fa-file-text-o"></span> <span class="xn-text">List Status</span></a> *@
-                </li>
-                <li class="xn-title">Transactions</li>
-                <li>
-                    <a asp-action="K2" asp-controller="Pegawai"><span class="fa fa-pencil"></span> <span class="xn-text">K-II</span></a>
-                    <a asp-action="PHL" asp-controller="Pegawai"><span class="fa fa-pencil"></span> <span class="xn-text">PHL</span></a>
-                </li>
-                @* <li class="xn-title">Systems</li>
-                <li>
-                <a asp-action="Index" asp-controller="Account"><span class="fa fa-user"></span> <span class="xn-text">Users</span></a>
-                </li> *@
-            </ul>
-            <!-- END X-NAVIGATION -->
-        </div>
-        <!-- END PAGE SIDEBAR -->
-        <!-- PAGE CONTENT -->
-        <div class="page-content">
-
-            <!-- START X-NAVIGATION VERTICAL -->
-            <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-                <!-- TOGGLE NAVIGATION -->
-                <li class="xn-icon-button">
-                    <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
-                </li>
-                <!-- END TOGGLE NAVIGATION -->
-                <!-- SIGN OUT -->
-                <li class="xn-icon-button pull-right">
-                    <a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>
-                </li>
-                <!-- END SIGN OUT -->
-            </ul>
-            <!-- END X-NAVIGATION VERTICAL -->
-            <!-- START BREADCRUMB -->
-            <!-- END BREADCRUMB -->
-            <!-- PAGE TITLE -->
-            <!-- END PAGE TITLE -->
-            <!-- PAGE CONTENT WRAPPER -->
+                    <ul class="navbar-nav  justify-content-end">
+                        <li class="nav-item d-flex align-items-center" style="display:none !important;">
+                            <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="https://www.creative-tim.com/builder?ref=navbar-soft-ui-dashboard">Online Builder</a>
+                        </li>
+                        <!-- <li class="nav-item d-flex align-items-center">
+                          <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline d-none">Sign In</span>
+                          </a>
+                        </li> -->
+                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                            <a id="logout" href="javascript:;" class="nav-link text-body p-0">
+                                <i class="fa fa-sign-out"><span class="d-sm-inline d-none"> @User.Identity?.Name</span></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid py-4">
             @RenderBody()
-            <!-- PAGE CONTENT WRAPPER -->
-        </div>
-        <!-- END PAGE CONTENT -->
-    </div>
-    <!-- END PAGE CONTAINER -->
-    <!-- MESSAGE BOX-->
-    <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
-        <div class="mb-container">
-            <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
-                <div class="mb-content">
-                    <p>Are you sure you want to log out?</p>
-                    <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
-                </div>
-                <div class="mb-footer">
-                    <div class="pull-right">
-                        <a asp-action="Logout" asp-controller="Account" class="btn btn-success btn-lg">Yes</a>
-                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+            <footer class="footer pt-3  ">
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="col-lg-6 mb-lg-0 mb-4">
+                            <div class="copyright text-center text-sm text-muted text-lg-start">
+                                © <script>
+                                      document.write(new Date().getFullYear())
+                                </script>SIPNONA by
+                                <a href="#" class="font-weight-bold" target="_blank">Development Team</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </footer>
+        </div>
+    </main>
+
+    <div class="fixed-plugin">
+        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+            <i class="fa fa-cog py-2"> </i>
+        </a>
+        <div class="card shadow-lg ">
+            <div class="card-header pb-0 pt-3 ">
+                <div class="float-start">
+                    <h5 class="mt-3 mb-0">SIPNONA UI Configurator</h5>
+                    <p>See our dashboard options.</p>
+                </div>
+                <div class="float-end mt-4">
+                    <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                        <i class="fa fa-close"></i>
+                    </button>
+                </div>
+                <!-- End Toggle Button -->
+            </div>
+            <hr class="horizontal dark my-1">
+            <div class="card-body pt-sm-3 pt-0">
+                <!-- Sidebar Backgrounds -->
+                <div>
+                    <h6 class="mb-0">Sidebar Colors</h6>
+                </div>
+                <a href="javascript:void(0)" class="switch-trigger background-color">
+                    <div class="badge-colors my-2 text-start">
+                        <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+                    </div>
+                </a>
+                <!-- Sidenav Type -->
+                <div class="mt-3">
+                    <h6 class="mb-0">Sidenav Type</h6>
+                    <p class="text-sm">Choose between 2 different sidenav types.</p>
+                </div>
+                <div class="d-flex">
+                    <button class="btn bg-gradient-primary w-100 px-3 mb-2 active" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+                    <button class="btn bg-gradient-primary w-100 px-3 mb-2 ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+                </div>
+                <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+                <!-- Navbar Fixed -->
+                <div class="mt-3">
+                    <h6 class="mb-0">Navbar Fixed</h6>
+                </div>
+                <div class="form-check form-switch ps-0">
+                    <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+                </div>
+                <hr class="horizontal dark my-sm-4">
             </div>
         </div>
     </div>
-    <!-- END MESSAGE BOX-->
-    <!-- START PRELOADS -->
-    <audio id="audio-alert" src="~/audio/alert.mp3" preload="auto"></audio>
-    <audio id="audio-fail" src="~/audio/fail.mp3" preload="auto"></audio>
-    <!-- END PRELOADS -->
-    <!-- START SCRIPTS -->
-    <!-- START PLUGINS -->
-    <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap.min.js"></script>
-    <!-- END PLUGINS -->
-    <!-- THIS PAGE PLUGINS -->
-    <script type='text/javascript' src='~/js/plugins/icheck/icheck.min.js'></script>
-    <script type="text/javascript" src="~/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
-    <script type="text/javascript" src="~/js/plugins/datatables/jquery.dataTables.min.js"></script>
-    <!-- END PAGE PLUGINS -->
-    <!-- START TEMPLATE -->
-    <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="~/js/plugins/bootstrap/bootstrap-select.js"></script>
+    @{
+        bool IsActive(string controller, string action)
+        {
+            var routeData = Context.GetRouteData();
+            var currentController = routeData.Values["controller"]?.ToString();
+            var currentAction = routeData.Values["action"]?.ToString();
 
-    <script type="text/javascript" src="~/js/settings.js"></script>
-    <script type="text/javascript" src="~/js/plugins.js"></script>
-    <script type="text/javascript" src="~/js/actions.js"></script>
-    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.min.js"></script>
-    <script type="text/javascript" src="~/js/site.js"></script>
-    <script type="text/javascript" src="~/js/plugins/owl/owl.carousel.min.js"></script>
-    @if (TempData["notification"] != null)
-    {
-        var message = TempData["notification"]?.ToString();
-        @Html.Raw(TempData["notification"])
-        @message
+            return string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase) &&
+            currentAction.Contains(action);
+        }
     }
-    <div class="theme-settings">
-        <div class="ts-button">
-            <span class="fa fa-cogs fa-spin"></span>
-        </div>
-        <div class="ts-body">
-            <div class="ts-title">Themes</div>
-            <div class="ts-themes">
-                <a href="#" class="active" data-theme="../css/theme-default.css">
-                    <img src="../img/themes/default.jpg" />
-                </a>
-                <a href="#" data-theme="../css/theme-brown.css">
-                    <img src="../img/themes/brown.jpg" />
-                </a>
-                <a href="#" data-theme="../css/theme-blue.css">
-                    <img src="../img/themes/blue.jpg" />
-                </a>
-                <a href="#" data-theme="../css/theme-white.css">
-                    <img src="../img/themes/light.jpg" />
-                </a>
-                <a href="#" data-theme="../css/theme-black.css">
-                    <img src="../img/themes/black.jpg" />
-                </a>
-            </div>
-            <div class="ts-title">Layout</div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="iradio_minimal-grey checked" style="position: relative;">
-                        <input type="radio" class="iradio" name="st_layout_boxed" value="0" checked="" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Full Width
-                </label>
-            </div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="iradio_minimal-grey" style="position: relative;">
-                        <input type="radio" class="iradio" name="st_layout_boxed" value="1" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Boxed
-                </label>
-            </div>
-            <div class="ts-title">Options</div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="icheckbox_minimal-grey" style="position: relative;">
-                        <input type="checkbox" class="icheckbox" name="st_head_fixed" value="1" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Fixed Header
-                </label>
-            </div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="icheckbox_minimal-grey checked" style="position: relative;">
-                        <input type="checkbox" class="icheckbox" name="st_sb_fixed" value="1" checked="" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Fixed Sidebar
-                </label>
-            </div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="icheckbox_minimal-grey checked" style="position: relative;">
-                        <input type="checkbox" class="icheckbox" name="st_sb_scroll" value="1" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Scroll Sidebar
-                </label>
-            </div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="icheckbox_minimal-grey" style="position: relative;">
-                        <input type="checkbox" class="icheckbox" name="st_sb_right" value="1" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Right Sidebar
-                </label>
-            </div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="icheckbox_minimal-grey" style="position: relative;">
-                        <input type="checkbox" class="icheckbox" name="st_sb_custom" value="1" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Custom Navigation
-                </label>
-            </div>
-            <div class="ts-row">
-                <label class="check">
-                    <div class="icheckbox_minimal-grey" style="position: relative;">
-                        <input type="checkbox" class="icheckbox" name="st_sb_toggled" value="1" style="position: absolute; opacity: 0;" />
-                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                    </div>
-                    Toggled Navigation
-                </label>
-            </div>
-        </div>
-    </div>
 
+    <!--   Core JS Files   -->
+    <script src="~/assets/js/core/popper.min.js"></script>
+    <script src="~/assets/js/core/bootstrap.min.js"></script>
+    <script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="~/assets/js/plugins/chartjs.min.js"></script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="~/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+
+        $('.select').each(function () {
+            new Choices(this);
+        });
+
+        $('#logout').click(function () {
+            swal({
+                title: 'Delete',
+                text: "Are you sure want to Log Out ?",
+                icon: 'warning',
+                buttons: [
+                    'Cancel',
+                    'Yes'
+                ],
+            }).then((value) => {
+                if (value) {
+                    window.location.href = '/Account/Logout';
+                }
+            });
+        });
+
+    </script>
 </body>
+
 </html>

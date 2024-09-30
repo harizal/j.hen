@@ -1,6 +1,150 @@
 ﻿@using WApp.ViewModels
 @model DashboardViewModel
 
+<div class="row">
+    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4 pb-3">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold">Registred K-II</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                @Model.TotalK2.ToString("N0") Data(s)
+                                <span class="text-success text-sm font-weight-bolder">(Aktif: @Model.TotalK2Aktif.ToString("N0"))</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <i class="fa fa-user text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr b-f9qln7o7lm="" class="horizontal dark my-sm-1">
+                <div class="row">
+                    <div>
+                        <div class="d-flex flex-column h-100" style="text-align: center;">
+                            <a asp-action="K2" asp-controller="Pegawai" class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto">
+                                K-II Details
+                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @foreach (var item in Model.K2JenisKelamin.OrderByDescending(m => m.Text))
+    {
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">@item.Text</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    @item.Total
+                                </h5>
+                            </div>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold">Registred PHL</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                @Model.TotalPHL.ToString("N0") Data(s)
+                                <span class="text-success text-sm font-weight-bolder">(Aktif: @Model.TotalPHLAktif.ToString("N0"))</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <i class="fa fa-user text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr b-f9qln7o7lm="" class="horizontal dark my-sm-1">
+                <div class="row">
+                    <div>
+                        <div class="d-flex flex-column h-100" style="text-align: center;">
+                            <a asp-action="PHL" asp-controller="Pegawai" class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto">
+                                PHL Details
+                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @foreach (var item in Model.PHLJenisKelamin.OrderByDescending(m => m.Text))
+    {
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">@item.Text</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    @item.Total
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row mt-4">
+    <div class="col-lg-12 mb-lg-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3 col-lg-12">
+                <div class="row mb-3">
+                    <div>
+                        <label>NIK/No Registrasi</label>
+                        <div>
+                            <input id="nik" class="form-control" placeholder="NIK/No Registrasi" aria-label="NIK/No Registrasi" aria-describedby="email-addon">
+                        </div>
+                        <label>Nama</label>
+                        <div >
+                            <input id="noRegistrasi" class="form-control" placeholder="Nama" aria-label="Nama">
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn bg-gradient-info w-100 mt-4 mb-0" onClick="Search()"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="d-flex flex-column h-100">                            
+                            <a asp-action="Search" asp-controller="Home" class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto">
+                                Search More
+                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@* 
 <div class="page-content-wrap" style="padding-top: 10px">
     <div class="row">
         <div class="col-md-3">
@@ -35,13 +179,10 @@
         </div>
         <div class="col-md-3"></div>
         <div class="col-md-3">
-
-            <!-- START WIDGET CLOCK -->
             <div class="widget widget-info widget-padding-sm" style="padding-top: 25px">
                 <div class="widget-big-int plugin-clock">00:00</div>
                 <div class="widget-subtitle plugin-date">Loading...</div>
             </div>
-            <!-- END WIDGET CLOCK -->
 
         </div>
     </div>
@@ -100,7 +241,6 @@
             </div>
         </div>
         <div class="col-md-6">
-            <!-- START PROJECTS BLOCK -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title-box">
@@ -162,11 +302,10 @@
                     </div>
                 </div>
             </div>
-            <!-- END PROJECTS BLOCK -->
 
         </div>
     </div>
-</div>
+</div> *@
 
 <script>
     function ClearForm() {
@@ -174,7 +313,7 @@
         $("#noRegistrasi").val('');
     }
 
-    function Search(){
+    function Search() {
         var url = '/Home/Search?name=' + encodeURIComponent($("#noRegistrasi").val()) + '&nik=' + encodeURIComponent($("#nik").val());
         window.location.href = url;
     }

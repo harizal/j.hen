@@ -27,6 +27,11 @@ namespace WApp.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Dashboard", Url = Url.Action("Index", "Home") },
+            };
+
             var viewModel = new DashboardViewModel();
 
             var queryK2 = (from pegawai in _context.Pegawais.Where(m => m.Type == PegawaiType.K2)

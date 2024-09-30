@@ -26,6 +26,10 @@ namespace WApp.Controllers
         #region POLDA
         public IActionResult Polda()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Unit Kerja", IsActive = true },
+            };
             return View();
         }
 
@@ -58,11 +62,21 @@ namespace WApp.Controllers
 
         public IActionResult CreatePolda()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Unit Kerja", Url = Url.Action("Polda", "Master") },
+                new() { Title = "Create Unit Kerja", IsActive = true },
+            };
             return View(new PoldaViewModel());
         }
 
         public IActionResult EditPolda(string id)
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Unit Kerja", Url = Url.Action("Polda", "Master") },
+                new() { Title = "Edit Unit Kerja", IsActive = true },
+            };
             var existingData = _context.Poldas.FirstOrDefault(m => m.Id == id);
             if (existingData == null)
             {
@@ -158,6 +172,10 @@ namespace WApp.Controllers
         #region PENDIDIKAN
         public IActionResult Pendidikan()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Pendidikan", IsActive = true },
+            };
             return View();
         }
 
@@ -190,11 +208,23 @@ namespace WApp.Controllers
 
         public IActionResult CreatePendidikan()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Pendidikan", Url = Url.Action("Pendidikan", "Master") },
+                new() { Title = "Create Pendidikan", IsActive = true },
+            };
+
             return View(new PendidikanViewModel());
         }
 
         public IActionResult EditPendidikan(string id)
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Pendidikan", Url = Url.Action("Pendidikan", "Master") },
+                new() { Title = "Edit Pendidikan", IsActive = true },
+            };
+
             var existingData = _context.Pendidikans.FirstOrDefault(m => m.Id == id);
             if (existingData == null)
             {
@@ -290,6 +320,10 @@ namespace WApp.Controllers
         #region Prodi
         public IActionResult Prodi()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Prodi", IsActive = true },
+            };
             return View();
         }
 
@@ -322,11 +356,22 @@ namespace WApp.Controllers
 
         public IActionResult CreateProdi()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Prodi", Url = Url.Action("Prodi", "Master") },
+                new() { Title = "Create Prodi", IsActive = true },
+            };
             return View(new ProdiViewModel());
         }
 
         public IActionResult EditProdi(string id)
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Prodi", Url = Url.Action("Prodi", "Master") },
+                new() { Title = "Edit Prodi", IsActive = true },
+            };
+
             var existingData = _context.Prodis.FirstOrDefault(m => m.Id == id);
             if (existingData == null)
             {
@@ -554,6 +599,10 @@ namespace WApp.Controllers
         #region SatuanKerja
         public IActionResult SatuanKerja()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Satuan Kerja", IsActive = true },
+            };
             return View();
         }
 
@@ -586,11 +635,23 @@ namespace WApp.Controllers
 
         public IActionResult CreateSatuanKerja()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Satuan Kerja", Url = Url.Action("SatuanKerja", "Master") },
+                new() { Title = "Create Satuan Kerja", IsActive = true },
+            };
+
             return View(new SatuanKerjaViewModel());
         }
 
         public IActionResult EditSatuanKerja(string id)
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "Satuan Kerja", Url = Url.Action("SatuanKerja", "Master") },
+                new() { Title = "Edit Satuan Kerja", IsActive = true },
+            };
+
             var existingData = _context.SatuanKerjas.FirstOrDefault(m => m.Id == id);
             if (existingData == null)
             {

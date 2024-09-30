@@ -1,127 +1,117 @@
-﻿<ul class="breadcrumb">
-    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-    <li class="active">List Pendidikan</li>
-</ul>
-
-<div class="page-content-wrap">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-horizontal">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Filter</strong></h3>
-                        <ul class="panel-controls">
-                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
-                        </ul>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Name</label>
-                                    <div class="col-md-9">
-                                        <input id="name" type="text" class="form-control" />
-                                    </div>
+﻿<div class="card">
+    <div class="card-header pb-0">
+        <div class="">
+            <div class="my-auto mt-lg-0 mt-4">
+                <div class="my-auto">
+                    <h5 class="font-weight-bolder">Search Pendidikan</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Name</label>
+                                <div class="col-md-9">
+                                    <input id="name" type="text" class="form-control" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <button class="btn btn-default" id="clearForm" onClick="ClearForm()"><i class="fa fa-refresh"></i>Clear Form</button>
-                        <button class="btn btn-primary" onClick="Search()"><i class="fa fa-search"></i>Search</button>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-4">
+                                <button class="btn bg-gradient-primary btn-sm mb-0 me-2" type="button" name="button" onClick="Search()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                                <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button" onClick="ClearForm()"><i class="fa fa-refresh"></i>&nbsp; Clear</button>
+                            </div>
+                        </div>
                     </div>
+                    <hr b-f9qln7o7lm="" class="horizontal dark mt-0">
+                    <a asp-action="CreatePendidikan" asp-controller="Master" class="btn bg-gradient-primary btn-sm mb-0" target="_blank">+&nbsp; New Pendidikan</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <!-- START DEFAULT DATATABLE -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a asp-action="CreatePendidikan" asp-controller="Master" class="btn btn-primary"><span class="fa fa-plus"></span> Add New</a>
-                    <table id="tableData" class="table display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>NAME</th>
-                                <th>STATUS</th>                                
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+    <div class="card-body px-0 pb-0">
+        <div class="table-responsive" style="padding: 0 1.5rem 1.5rem 1.5rem;">
+            <table id="tableData" class="table table-flush dataTable-table" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        <th>NAME</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
-    <script>
-        var datatable = null;
-        $(document).ready(function () {
-            bindDatatable();
-        });
-        function bindDatatable() {
-            datatable = $('#tableData')
-                .DataTable({
-                    ajax: {
-                        url: "/Master/GetPendidikan",
-                        type: "POST",
-                        async: true,
-                        data: function (data) {
-                            data.additionalValues = [$("#name").val(), $("#email").val()];
-                            return data;
+</div>
+<script>
+    var datatable = null;
+    $(document).ready(function () {
+        bindDatatable();
+    });
+    function bindDatatable() {
+        datatable = $('#tableData')
+            .DataTable({
+                ajax: {
+                    url: "/Master/GetPendidikan",
+                    type: "POST",
+                    async: true,
+                    data: function (data) {
+                        data.additionalValues = [$("#name").val(), $("#email").val()];
+                        return data;
+                    }
+                },
+                "language": {
+                    'processing': '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                },
+                "columns": [
+                    {
+                        "data": "id",
+                        "width": "100px",
+                        "render": function (data, type, row, meta) {
+                            var editUrl = "/Master/EditPendidikan/" + data;
+                            return `<div style="text-align: center;">
+                                                        <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
+                                                                <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
+                                                                    </div>`
                         }
                     },
-                    "language": {
-                        'processing': '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                    {
+                        "data": "name",
                     },
-                    "columns": [
-                        {
-                            "data": "id",
-                            "width": "100px",
-                            "render": function (data, type, row, meta) {
-                                var editUrl = "/Master/EditPendidikan/" + data;
-                                return `<div style="text-align: center;">
-                                                    <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
-                                                            <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
-                                                                </div>`
-                            }
-                        },
-                        {
-                            "data": "name",
-                        },
-                        {
-                            "data": "isActive",
-                            "width": "100px",
-                            "render": function (data, type, row, meta) {
-                                return data ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>Non Active</span>"
-                            }
-                        },                        
-                    ],
-                    serverSide: true,
-                    searching: false,
-                    ordering: false,
-                    drawCallback: function (settings) {
-                        initDelete(".deleteDatas");
-                    }
-                });
-        }
-
-        function ClearForm() {
-            $("#name").val('');
-            $("#email").val('');
-        }
-
-        function Search() {
-            datatable.ajax.reload();
-        }
-
-        var initDelete = function (selector) {
-            $(selector).on('click', function () {
-                var btn = $(this);
-                var id = btn.attr("data-id");
-
-                ShowConfimDelete(datatable, "/Master/DeletePendidikan/" + id)
+                    {
+                        "data": "isActive",
+                        "width": "100px",
+                        "render": function (data, type, row, meta) {
+                            return data ? "<span class='badge badge-success badge-sm'>Active</span>" : "<span class='badge badge-danger badge-sm'>Non Active</span>"
+                        }
+                    },
+                ],
+                serverSide: true,
+                searching: false,
+                ordering: false,
+                drawCallback: function (settings) {
+                    initDelete(".deleteDatas");
+                }
             });
-        }
+    }
 
-    </script>
+    function ClearForm() {
+        $("#name").val('');
+        $("#email").val('');
+        Search();
+    }
+
+    function Search() {
+        datatable.ajax.reload();
+    }
+
+    var initDelete = function (selector) {
+        $(selector).on('click', function () {
+            var btn = $(this);
+            var id = btn.attr("data-id");
+
+            ShowConfimDelete(datatable, "/Master/DeletePendidikan/" + id)
+        });
+    }
+
+</script>

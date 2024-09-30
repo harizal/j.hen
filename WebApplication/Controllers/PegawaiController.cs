@@ -281,6 +281,10 @@ namespace WApp.Controllers
         #region K-II
         public IActionResult K2()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "K-II", Url = Url.Action("K2", "Pegawai"), IsActive = true },
+            };
             return View();
         }
 
@@ -335,11 +339,22 @@ namespace WApp.Controllers
 
         public IActionResult CreateK2()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "K-II", Url = Url.Action("K2", "Pegawai") },
+                new() { Title = "Create K-II", Url = Url.Action("Create", "Pegawai"), IsActive = true },
+            };
             return View(InitModel(new PegawaiViewModel()));
         }
 
         public IActionResult EditK2(string id)
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "K-II", Url = Url.Action("K2", "Pegawai") },
+                new() { Title = "Edit K-II", Url = Url.Action("Create", "Pegawai"), IsActive = true },
+            };
+
             var existingData = _context.Pegawais.FirstOrDefault(m => m.Id == id);
             if (existingData == null)
             {
@@ -499,6 +514,10 @@ namespace WApp.Controllers
         #region PHL
         public IActionResult PHL()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "PHL", Url = Url.Action("PHL", "Pegawai"), IsActive = true }
+            };
             return View();
         }
 
@@ -552,11 +571,21 @@ namespace WApp.Controllers
 
         public IActionResult CreatePHL()
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "PHL", Url = Url.Action("PHL", "Pegawai") },
+                new() { Title = "Create PHL", Url = Url.Action("CreatePHL", "Pegawai"), IsActive = true },
+            };
             return View(InitModel(new PegawaiViewModel()));
         }
 
         public IActionResult EditPHL(string id)
         {
+            ViewBag.Breadcrumbs = new List<BreadcrumbItemViewModel>
+            {
+                new() { Title = "PHL", Url = Url.Action("PHL", "Pegawai") },
+                new() { Title = "Edit PHL", Url = Url.Action("CreatePHL", "Pegawai"), IsActive = true },
+            };
             var existingData = _context.Pegawais.FirstOrDefault(m => m.Id == id);
             if (existingData == null)
             {
