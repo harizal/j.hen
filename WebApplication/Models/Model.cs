@@ -1,4 +1,5 @@
-﻿using static WApp.Utlis.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using static WApp.Utlis.Enums;
 
 namespace WApp.Models
 {
@@ -9,6 +10,7 @@ namespace WApp.Models
 
     public class SatuanKerjaWilayahModel : BaseModel
     {
+        public string? UnitKerjaID { get; set; }
         public string Name { get; set; }
     }
 
@@ -19,6 +21,7 @@ namespace WApp.Models
 
     public class ProdiModel : BaseModel
     {
+        public string? PendidikanID { get; set; }
         public string Name { get; set; }
     }
 

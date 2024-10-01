@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
     <title>
         SIPNONA by Creative Tim
-    </title>
+    </title>    
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -23,6 +23,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <link rel="stylesheet" type="text/css" id="theme" href="~/css/datatable/datatable.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <!-- <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script> -->
@@ -54,6 +55,10 @@
 
         .dt-paging{
             font-size: 0.75rem;
+        }
+
+        .btn-group-sm > .btn i, .btn.btn-sm i{
+            font-size: .75rem;
         }
 
     </style>
@@ -361,7 +366,7 @@
     <script type="text/javascript" src="~/lib/sweetalert/sweetalert.min.js"></script>
     <script type="text/javascript" src="~/js/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {

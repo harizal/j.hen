@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WApp.Datas;
 
@@ -10,9 +11,11 @@ using WApp.Datas;
 namespace WApp.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20241001133200_FixRellationTable")]
+    partial class FixRellationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
@@ -369,6 +372,8 @@ namespace WApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PendidikanID");
+
                     b.ToTable("Prodis");
                 });
 
@@ -400,6 +405,8 @@ namespace WApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UnitKerjaID");
 
                     b.ToTable("SatuanKerjas");
                 });
@@ -482,6 +489,24 @@ namespace WApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WApp.Models.ProdiModel", b =>
+                {
+                    b.HasOne("WApp.Models.PendidikanModel", "Pendidikan")
+                        .WithMany()
+                        .HasForeignKey("PendidikanID");
+
+                    b.Navigation("Pendidikan");
+                });
+
+            modelBuilder.Entity("WApp.Models.SatuanKerjaWilayahModel", b =>
+                {
+                    b.HasOne("WApp.Models.PoldaModel", "UnitKerja")
+                        .WithMany()
+                        .HasForeignKey("UnitKerjaID");
+
+                    b.Navigation("UnitKerja");
                 });
 #pragma warning restore 612, 618
         }

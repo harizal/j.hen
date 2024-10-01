@@ -35,6 +35,10 @@ namespace WApp.ViewModels
     {
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string UnitKerjaID { get; set; }
+        public string? UnitKerja { get; set; }
+        public List<SelectListItem>? UnitKerjas { get; set; }
     }
 
     public class PendidikanViewModel : BaseModel
@@ -47,6 +51,9 @@ namespace WApp.ViewModels
     {
         [Required]
         public string Name { get; set; }
+        public string? PendidikanID { get; set; }
+        public string? Pendidikan { get; set; }
+        public List<SelectListItem>? Pendidikans { get; set; }
     }
 
     public class StatusViewModel : BaseModel

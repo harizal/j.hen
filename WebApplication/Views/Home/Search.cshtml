@@ -2,136 +2,144 @@
 @using WApp.ViewModels
 @model PegawaiViewModel
 
-<ul class="breadcrumb">
-    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-    <li class="active">Pencarian</li>
-</ul>
-
-<div class="page-content-wrap">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-horizontal">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Filter</strong></h3>
-                        <ul class="panel-controls">
-                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
-                        </ul>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">NIK/No Registrasi</label>
-                                    <div class="col-md-6">
-                                        <input asp-for="NIK" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Nama</label>
-                                    <div class="col-md-6">
-                                        <input asp-for="Name" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="JenisKelamin" multiple asp-items="Model.ListJenisKelamin" class="form-control selectmulti" data-live-search="true" style="width: 100%">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="PendidikanID" multiple asp-items="Model.ListPendidikan" class="form-control selectmulti" data-live-search="true">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Prodi</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="ProdiID" multiple asp-items="Model.ListProdi" class="form-control selectmulti" data-live-search="true">
-                                        </select>
-                                    </div>
+<div class="card">
+    <div class="card-header pb-4">
+        <div class="">
+            <div class="my-auto mt-lg-0 mt-4">
+                <div class="my-auto">
+                    <h5 class="font-weight-bolder">Filter</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">NIK/No Registrasi</label>
+                                <div class="">
+                                    <input asp-for="NIK" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
-
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="SatuanKerjaID" multiple asp-items="Model.ListSatuanKerja" class="form-control selectmulti" data-live-search="true">
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Nama</label>
+                                <div class="">
+                                    <input asp-for="Name" class="form-control" />
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="UnitKerjaID" multiple asp-items="Model.ListUnitKerja" class="form-control selectmulti" data-live-search="true">
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Jenis Kelamin</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="JenisKelamin" multiple asp-items="Model.ListJenisKelamin" class="form-control selectmulti" data-live-search="true" style="width: 100%">
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Type Karyawan</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="Type" multiple class="form-control selectmulti" data-live-search="true">
-
-                                            <option value="@(Enums.PegawaiType.K2)">K-II</option>
-                                            <option value="@(Enums.PegawaiType.PHL)">PHL</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Pendidikan</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="PendidikanID" multiple asp-items="Model.ListPendidikan" class="form-control selectmulti" data-live-search="true">
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Status</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <select asp-for="StatusID" multiple class="form-control selectmulti" data-live-search="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Prodi</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="ProdiID" multiple asp-items="Model.ListProdi" class="form-control selectmulti" data-live-search="true">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
 
-                                            <option value="1">Aktif</option>
-                                            <option value="0">Tidak Aktif</option>
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Satuan Kerja</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="SatuanKerjaID" multiple asp-items="Model.ListSatuanKerja" class="form-control selectmulti" data-live-search="true">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Unit Kerja</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="UnitKerjaID" multiple asp-items="Model.ListUnitKerja" class="form-control selectmulti" data-live-search="true">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Type Karyawan</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="Type" multiple class="form-control selectmulti" data-live-search="true">
+
+                                        <option value="@(Enums.PegawaiType.K2)">K-II</option>
+                                        <option value="@(Enums.PegawaiType.PHL)">PHL</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-12 control-label">Status</label>
+                                <div class=" col-xs-12">
+                                    <select asp-for="StatusID" multiple class="form-control selectmulti" data-live-search="true">
+
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Tidak Aktif</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <button class="btn btn-default" id="clearForm" onClick="ClearForm()"><i class="fa fa-refresh"></i>Clear Form</button>
-                        <button class="btn btn-primary" onClick="Search()"><i class="fa fa-search"></i>Search</button>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-4">
+                                <button class="btn bg-gradient-primary btn-sm mb-0 me-2" type="button" name="button" onClick="Search()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                                <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button" onClick="ClearForm()"><i class="fa fa-refresh"></i>&nbsp; Clear</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <!-- START DEFAULT DATATABLE -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <table id="tableData" class="table display">
-                        <thead style="display: none">
-                            <tr>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <hr b-f9qln7o7lm="" class="horizontal dark mt-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- START DEFAULT DATATABLE -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <table id="tableData" class="table display">
+                                        <thead style="display: none">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     var datatable = null;
 
     $(window).load(function () {
-        $(".selectmulti").selectpicker({ noneSelectedText: 'All' });
+
+        InitSelect();
         bindDatatable();
     });
+
+    function InitSelect() {
+        const selects = document.querySelectorAll('.selectmulti'); // Select all elements with class 'my-select'
+
+        selects.forEach(select => {
+            new Choices(select, {
+                removeItemButton: true,
+                searchEnabled: true,
+                placeholder: true,
+                placeholderValue: 'All',
+            });
+        });
+    }
 
     function ClearForm() {
         $("#NIK").val('');
         $("#Name").val('');
-        $(".selectmulti").val("");
-        $(".selectmulti").selectpicker("refresh");
+
+        location.reload();
     }
 
     function bindDatatable() {
@@ -166,107 +174,47 @@
                         "data": "nik",
                         "render": function (data, type, row, meta) {
                             var statusStyle = row.isActive ? "label-success" : "label-danger";
-                            var status = row.isActive ? "Active" : "Non Active";
-                            return `<div class="panel panel-default"><div class="panel-body">
-                                    <div class="row">
-                                             <div class="col-md-12">
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 control-label" style="padding-top: 7px;">NIK :</label>
-                                               </div>
-                                               <div class="col-md-2">
-                                                 <div class="col-xs-12">
-                                                       <p class="form-control">${row.nik}</p>
-                                                 </div>
-                                               </div>
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">No Registration :</label>
-                                               </div>
-                                               <div class="col-md-2">
-                                                 <div class="col-xs-12">
-                                                       <p class="form-control">${row.nomor}</p>
-                                                 </div>
-                                               </div>
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Jenis Kelamin :</label>
-                                               </div>
-                                               <div class="col-md-2">
-                                                 <div class="col-xs-12">
-                                                           <p class="form-control">${row.jenisKelaminText}</p>
-                                                 </div>
-                                               </div>
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Status :</label>
-                                               </div>
-                                               <div class="col-md-2">
-                                                 <div class="col-xs-12">
-                                                                   <p class="form-control ${statusStyle}">${status}</p>
-                                                 </div>
-                                               </div>
-                                             </div>
-                                           </div>
-                                           <div class="row">
-                                             <div class="col-md-12">
-                                                 <div class="col-md-1">
-                                                     <label class="col-md-3 control-label" style="padding-top: 7px;">Nama :</label>
-                                                   </div>
-                                                   <div class="col-md-5">
-                                                     <div class="col-xs-12">
-                                                           <p class="form-control">${row.name}</p>
-                                                     </div>
-                                                   </div>
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 control-label" style="padding-top: 7px;">Pendidikan :</label>
-                                               </div>
-                                               <div class="col-md-5">
-                                                 <div class="col-xs-12">
-                                                       <p class="form-control">${row.pendidikanText}</p>
-                                                 </div>
-                                               </div>
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Prodi :</label>
-                                               </div>
-                                               <div class="col-md-5">
-                                                 <div class="col-xs-12">
-                                                       <p class="form-control">${row.prodiText}</p>
-                                                 </div>
-                                               </div>
-                                                    <div class="col-md-1">
-                                                     <label class="col-md-3 control-label" style="padding-top: 7px;">Satuan Kerja :</label>
-                                                   </div>
-                                                   <div class="col-md-5">
-                                                     <div class="col-xs-12">
-                                                       <p class="form-control">${row.satuanKerjaText}</p>
-                                                     </div>
-                                                   </div>
-                                             </div>
-                                           </div>
-                                           <div class="row">
-                                             <div class="col-md-12">
-
-                                               <div class="col-md-1">
-                                                 <label class="col-md-3 col-xs-12 control-label" style="padding-top: 7px;">Unit Kerja :</label>
-                                               </div>
-                                               <div class="col-md-5">
-                                                 <div class="col-xs-12">
-                                                   <p class="form-control">${row.unitKerjaText}</p>
-                                                 </div>
-                                               </div>
-                                                   <div class="col-md-1">
-                                                     <label class="col-md-3 control-label" style="padding-top: 7px;">Type :</label>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                     <div class="col-xs-12">
-                                                           <p class="form-control">${row.typeText}</p>
-                                                     </div>
-                                                   </div>
-                                             </div>
-                                           </div>
-                                           <div class="row">
-                                             <div class="col-md-12">
-
-                                                   </div>
-                                                       </div>
-                                               </div></div>`
+                            var status = row.isActive ? "badge-success" : "badge-danger";
+                            return `
+                                <div class="form-control">
+                                   <div class="row">
+                                      <h6 class="mb-3 text-sm">${row.nik}${row.nomor} - ${row.name}</h6>
+                                   </div>
+                                   <div class="row">
+                                      <div class="col-md-6">
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Jenis Kelamin: <span class="text-dark font-weight-bold ms-sm-2">${row.jenisKelaminText}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Pendidikan: <span class="text-dark font-weight-bold ms-sm-2">${row.pendidikanText}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Prodi: <span class="text-dark font-weight-bold ms-sm-2">${row.prodiText}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Awal Kerja: <span class="text-dark font-weight-bold ms-sm-2">${row.tanggalAwal}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Status: <span class="badge ${status}">Active</span></span>
+                                         </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Type: <span class="text-dark font-weight-bold ms-sm-2">${row.typeText}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Satuan Kerja: <span class="text-dark font-weight-bold ms-sm-2">${row.satuanKerjaText}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Unit Kerja: <span class="text-dark font-weight-bold ms-sm-2">${row.unitKerjaText}</span></span>
+                                         </div>
+                                         <div class="col-md-3">
+                                            <span class="mb-2 text-xs">Akhir Kerja: <span class="text-dark font-weight-bold ms-sm-2">${row.tanggalAkhir}</span></span>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </div>
+                            `
                         }
                     }
                 ],

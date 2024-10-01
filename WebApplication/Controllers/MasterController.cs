@@ -129,7 +129,7 @@ namespace WApp.Controllers
                         _context.Add(entity);
                     else
                         _context.Update(entity);
-                    
+
                     await _context.SaveChangesAsync();
 
                     Alert(Constans.Label.SavedSuccess, Enums.NotificationType.success);
@@ -335,20 +335,23 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.Prodis.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
-                    .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
-                    .Select(m => new ProdiViewModel
+                var query = from prodi in _context.Prodis.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
+                            join pen in _context.Pendidikans.Where(m => m.IsActive) on prodi.PendidikanID equals pen.Id into P
+                            from pen in P.DefaultIfEmpty()
+                    select new ProdiViewModel
                     {
-                        Id = m.Id,
-                        CreatedBy = m.CreatedBy,
-                        CreatedDate = m.CreatedDate,
-                        IsActive = m.IsActive,
-                        Name = m.Name,
-                        UpdatedBy = m.UpdatedBy,
-                        UpdatedDate = m.UpdatedDate
-                    });
+                        Id = prodi.Id,
+                        CreatedBy = prodi.CreatedBy,
+                        CreatedDate = prodi.CreatedDate,
+                        IsActive = prodi.IsActive,
+                        Name = prodi.Name,
+                        UpdatedBy = prodi.UpdatedBy,
+                        UpdatedDate = prodi.UpdatedDate,
 
-                results = await query.ToListAsync();
+                        Pendidikan = pen.Name
+                    };
+
+                results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -361,7 +364,18 @@ namespace WApp.Controllers
                 new() { Title = "Prodi", Url = Url.Action("Prodi", "Master") },
                 new() { Title = "Create Prodi", IsActive = true },
             };
-            return View(new ProdiViewModel());
+            return View(new ProdiViewModel()
+            {
+                Pendidikans =
+
+                [
+                    .. _context.Pendidikans.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ]
+            });
         }
 
         public IActionResult EditProdi(string id)
@@ -387,7 +401,17 @@ namespace WApp.Controllers
                 IsActive = existingData.IsActive,
                 Name = existingData.Name,
                 UpdatedBy = existingData.UpdatedBy,
-                UpdatedDate = existingData.UpdatedDate
+                UpdatedDate = existingData.UpdatedDate,
+                PendidikanID = existingData.PendidikanID,
+                Pendidikans =
+
+                [
+                    .. _context.Pendidikans.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ]
             });
         }
 
@@ -407,6 +431,15 @@ namespace WApp.Controllers
                     if (existingProdi)
                     {
                         Alert(string.Format(Constans.Label.AlreadyExists, model.Name), Enums.NotificationType.error);
+                        model.Pendidikans =
+
+                [
+                    .. _context.Pendidikans.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ];
                         return View("CreateProdi", model);
                     }
                     var entity = new ProdiModel
@@ -418,6 +451,8 @@ namespace WApp.Controllers
                         CreatedDate = DateTime.Now,
                         UpdatedBy = User.Identity.Name,
                         UpdatedDate = DateTime.Now,
+
+                        PendidikanID = model.PendidikanID
                     };
 
                     if (string.IsNullOrEmpty(model.Id))
@@ -446,6 +481,15 @@ namespace WApp.Controllers
 
                 Alert(ex.Message, Enums.NotificationType.error);
             }
+            model.Pendidikans =
+
+                [
+                    .. _context.Pendidikans.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ];
             return View("CreateProdi", model);
         }
 
@@ -614,20 +658,23 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.SatuanKerjas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
-                    .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
-                    .Select(m => new SatuanKerjaViewModel
+                var query = from satuanKerja in _context.SatuanKerjas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
+                            join unitKerja in _context.Poldas.Where(m => m.IsActive) on satuanKerja.UnitKerjaID equals unitKerja.Id into UK
+                            from unitKerja in UK.DefaultIfEmpty()
+                    select new SatuanKerjaViewModel
                     {
-                        Id = m.Id,
-                        CreatedBy = m.CreatedBy,
-                        CreatedDate = m.CreatedDate,
-                        IsActive = m.IsActive,
-                        Name = m.Name,
-                        UpdatedBy = m.UpdatedBy,
-                        UpdatedDate = m.UpdatedDate
-                    });
+                        Id = satuanKerja.Id,
+                        CreatedBy = satuanKerja.CreatedBy,
+                        CreatedDate = satuanKerja.CreatedDate,
+                        IsActive = satuanKerja.IsActive,
+                        Name = satuanKerja.Name,
+                        UpdatedBy = satuanKerja.UpdatedBy,
+                        UpdatedDate = satuanKerja.UpdatedDate,
+                        
+                        UnitKerja = unitKerja.Name
+                    };
 
-                results = await query.ToListAsync();
+                results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -641,7 +688,18 @@ namespace WApp.Controllers
                 new() { Title = "Create Satuan Kerja", IsActive = true },
             };
 
-            return View(new SatuanKerjaViewModel());
+            return View(new SatuanKerjaViewModel()
+            {
+                UnitKerjas =
+
+                [
+                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ]
+            });
         }
 
         public IActionResult EditSatuanKerja(string id)
@@ -667,7 +725,17 @@ namespace WApp.Controllers
                 IsActive = existingData.IsActive,
                 Name = existingData.Name,
                 UpdatedBy = existingData.UpdatedBy,
-                UpdatedDate = existingData.UpdatedDate
+                UpdatedDate = existingData.UpdatedDate,
+                UnitKerjaID = existingData.UnitKerjaID,
+                UnitKerjas =
+
+                [
+                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ]
             });
         }
 
@@ -687,6 +755,15 @@ namespace WApp.Controllers
                     if (existingSatuanKerja)
                     {
                         Alert(string.Format(Constans.Label.AlreadyExists, model.Name), Enums.NotificationType.error);
+                        model.UnitKerjas =
+
+                [
+                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ];
                         return View("CreateSatuanKerja", model);
                     }
                     var entity = new SatuanKerjaWilayahModel
@@ -698,6 +775,8 @@ namespace WApp.Controllers
                         CreatedDate = DateTime.Now,
                         UpdatedBy = User.Identity.Name,
                         UpdatedDate = DateTime.Now,
+
+                        UnitKerjaID = model.UnitKerjaID,
                     };
 
                     if (string.IsNullOrEmpty(model.Id))
@@ -726,6 +805,15 @@ namespace WApp.Controllers
 
                 Alert(ex.Message, Enums.NotificationType.error);
             }
+            model.UnitKerjas =
+
+                [
+                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ];
             return View("CreateSatuanKerja", model);
         }
 

@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <hr b-f9qln7o7lm="" class="horizontal dark mt-0">
-                    <a asp-action="CreateSatuanKerja" asp-controller="Master" class="btn bg-gradient-primary btn-sm mb-0" target="_blank">+&nbsp; New Satuan Kerja</a>
+                    <a asp-action="CreateSatuanKerja" asp-controller="Master" class="btn bg-gradient-primary btn-sm mb-0" >+&nbsp; New Satuan Kerja</a>
                 </div>
             </div>
         </div>
@@ -35,6 +35,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th></th>
+                        <th>UNIT KERJA</th>
                         <th>NAME</th>
                         <th>STATUS</th>
                     </tr>
@@ -75,6 +76,9 @@
                                                                 <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
                                                                     </div>`
                         }
+                    },
+                    {
+                        "data": "unitKerja",
                     },
                     {
                         "data": "name",
