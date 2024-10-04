@@ -167,6 +167,7 @@ namespace WApp.Controllers
                 return Ok(new { isSuccess = true });
             }
         }
+        
         #endregion
 
         #region PENDIDIKAN
@@ -506,6 +507,25 @@ namespace WApp.Controllers
                 return Ok(new { isSuccess = true });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProdiByPendidikan(string param)
+        {
+            var query = from prodi in _context.Prodis.Where(m => m.IsActive && m.PendidikanID == param)
+                        select new ProdiViewModel
+                        {
+                            Id = prodi.Id,
+                            CreatedBy = prodi.CreatedBy,
+                            CreatedDate = prodi.CreatedDate,
+                            IsActive = prodi.IsActive,
+                            Name = prodi.Name,
+                            UpdatedBy = prodi.UpdatedBy,
+                            UpdatedDate = prodi.UpdatedDate,
+                        };
+
+            var results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
+            return Ok(results);
+        }
         #endregion
 
         #region StatusPerkawinan
@@ -829,6 +849,25 @@ namespace WApp.Controllers
                 await _context.SaveChangesAsync();
                 return Ok(new { isSuccess = true });
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSatuanKerjaByUnitKerja(string param)
+        {
+            var query = from satuanKerja in _context.SatuanKerjas.Where(m => m.IsActive && m.UnitKerjaID == param)
+                        select new SatuanKerjaViewModel
+                        {
+                            Id = satuanKerja.Id,
+                            CreatedBy = satuanKerja.CreatedBy,
+                            CreatedDate = satuanKerja.CreatedDate,
+                            IsActive = satuanKerja.IsActive,
+                            Name = satuanKerja.Name,
+                            UpdatedBy = satuanKerja.UpdatedBy,
+                            UpdatedDate = satuanKerja.UpdatedDate,
+                        };
+
+            var results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
+            return Ok(results);
         }
         #endregion
 

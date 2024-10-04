@@ -39,3 +39,26 @@ function ShowConfimDelete(table, url, id) {
         }
     });
 }
+
+function UpdateNestedSelect(apiUrl, parameter, selectorSelect) {
+    selectorSelect.clearChoices();
+    selectorSelect.removeActiveItems();
+    if (parameter) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl, // The base API URL
+            data: { param: parameter }, // The single parameter being sent
+            contentType: "application/json",
+            success: function (data) {
+                var items = data.map(function (items) {
+                    return { value: items.id, label: items.name };
+                });
+                selectorSelect.setValue(items);
+            },
+            error: function (error) {
+                console.error("Error:", error);
+                // Handle the error
+            }
+        });
+    }
+}

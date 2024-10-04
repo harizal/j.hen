@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Pendidikan</label>
                                 <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListPendidikan" asp-for="PendidikanID" class="form-control select input" data-live-search="true">
+                                    <select asp-items="Model.ListPendidikan" asp-for="PendidikanID" class="form-control input" data-live-search="true">
                                         <option></option>
                                     </select>
                                     <span asp-validation-for="PendidikanID" class="text-danger"></span>
@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Prodi</label>
                                 <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListProdi" asp-for="ProdiID" class="form-control select input" data-live-search="true">
+                                    <select asp-items="Model.ListProdi" asp-for="ProdiID" class="form-control input" data-live-search="true">
                                         <option></option>
                                     </select>
                                     <span asp-validation-for="ProdiID" class="text-danger"></span>
@@ -58,23 +58,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Satuan Kerja</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control select input" data-live-search="true">
-                                        <option></option>
-                                    </select>
-                                    <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
-                                </div>
-                            </div>
+                        <div class="col-md-6">                           
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Unit Kerja</label>
                                 <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control select input" data-live-search="true">
+                                    <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control input" data-live-search="true">
                                         <option></option>
                                     </select>
                                     <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Satuan Kerja</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control input" data-live-search="true">
+                                        <option></option>
+                                    </select>
+                                    <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -121,6 +121,22 @@
         const endDatePicker = flatpickr("#TanggalAkhir", {
             dateFormat: "d/m/Y", // Use 'd/m/Y' for dd/MM/yyyy format
             minDate: startDatePicker.selectedDates[0] // Initially set to the selected start date
+        });
+
+        const pendidikanChoice = new Choices('#PendidikanID');
+        const prodiChoice = new Choices('#ProdiID');
+
+        $('#PendidikanID').change(function () {
+            const selectedPendidikan = this.value;
+            UpdateNestedSelect("/Master/GetProdiByPendidikan", selectedPendidikan, prodiChoice);
+        });
+
+        const unitKerjaChoice = new Choices('#UnitKerjaID');
+        const satuanKerjaChoice = new Choices('#SatuanKerjaID');
+
+        $('#UnitKerjaID').change(function () {
+            const selectedUnitKerja = this.value;
+            UpdateNestedSelect("/Master/GetSatuanKerjaByUnitKerja", selectedUnitKerja, satuanKerjaChoice);
         });
     });
 </script>
