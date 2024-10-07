@@ -41,20 +41,23 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
-                var query = _context.Poldas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
-                    .OrderByDescending(m => m.IsActive).ThenBy(m => m.Name)
-                    .Select(m => new PoldaViewModel
-                    {
-                        Id = m.Id,
-                        CreatedBy = m.CreatedBy,
-                        CreatedDate = m.CreatedDate,
-                        IsActive = m.IsActive,
-                        Name = m.Name,
-                        UpdatedBy = m.UpdatedBy,
-                        UpdatedDate = m.UpdatedDate
-                    });
+                var query = from prodi in _context.Poldas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
+                            join pen in _context.SatuanKerjas.Where(m => m.IsActive) on prodi.SatuanKerjaID equals pen.Id into P
+                            from pen in P.DefaultIfEmpty()
+                            select new PoldaViewModel
+                            {
+                                Id = prodi.Id,
+                                CreatedBy = prodi.CreatedBy,
+                                CreatedDate = prodi.CreatedDate,
+                                IsActive = prodi.IsActive,
+                                Name = prodi.Name,
+                                UpdatedBy = prodi.UpdatedBy,
+                                UpdatedDate = prodi.UpdatedDate,
 
-                results = await query.ToListAsync();
+                                SatuanKerja = pen.Name
+                            };
+
+                results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -67,7 +70,18 @@ namespace WApp.Controllers
                 new() { Title = "Unit Kerja", Url = Url.Action("Polda", "Master") },
                 new() { Title = "Create Unit Kerja", IsActive = true },
             };
-            return View(new PoldaViewModel());
+            return View(new PoldaViewModel()
+            {
+                SatuanKerjas =
+
+                [
+                    .. _context.SatuanKerjas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ]
+            });
         }
 
         public IActionResult EditPolda(string id)
@@ -92,7 +106,18 @@ namespace WApp.Controllers
                 IsActive = existingData.IsActive,
                 Name = existingData.Name,
                 UpdatedBy = existingData.UpdatedBy,
-                UpdatedDate = existingData.UpdatedDate
+                UpdatedDate = existingData.UpdatedDate,
+
+                SatuanKerjaID = existingData.SatuanKerjaID,
+                SatuanKerjas =
+
+                [
+                    .. _context.SatuanKerjas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ]
             });
         }
 
@@ -103,15 +128,23 @@ namespace WApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var existingPolda = _context.Poldas.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive);
+                    var existingPolda = _context.Poldas.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.SatuanKerjaID == model.SatuanKerjaID);
                     if (!string.IsNullOrEmpty(model.Id))
                     {
-                        existingPolda = _context.Poldas.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.Id != model.Id);
+                        existingPolda = _context.Poldas.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.SatuanKerjaID == model.SatuanKerjaID && m.Id != model.Id);
                     }
 
                     if (existingPolda)
                     {
                         Alert(string.Format(Constans.Label.AlreadyExists, model.Name), Enums.NotificationType.error);
+                        model.SatuanKerjas =
+                                [
+                                    .. _context.SatuanKerjas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                                    {
+                                        Value = m.Id,
+                                        Text = m.Name
+                                    }),
+                                ];
                         return View("CreatePolda", model);
                     }
                     var entity = new PoldaModel
@@ -123,6 +156,8 @@ namespace WApp.Controllers
                         CreatedDate = DateTime.Now,
                         UpdatedBy = User.Identity.Name,
                         UpdatedDate = DateTime.Now,
+
+                        SatuanKerjaID = model.SatuanKerjaID
                     };
 
                     if (string.IsNullOrEmpty(model.Id))
@@ -151,6 +186,15 @@ namespace WApp.Controllers
 
                 Alert(ex.Message, Enums.NotificationType.error);
             }
+            model.SatuanKerjas =
+
+                [
+                    .. _context.SatuanKerjas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Value = m.Id,
+                        Text = m.Name
+                    }),
+                ];
             return View("CreatePolda", model);
         }
 
@@ -167,7 +211,7 @@ namespace WApp.Controllers
                 return Ok(new { isSuccess = true });
             }
         }
-        
+
         #endregion
 
         #region PENDIDIKAN
@@ -339,18 +383,18 @@ namespace WApp.Controllers
                 var query = from prodi in _context.Prodis.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
                             join pen in _context.Pendidikans.Where(m => m.IsActive) on prodi.PendidikanID equals pen.Id into P
                             from pen in P.DefaultIfEmpty()
-                    select new ProdiViewModel
-                    {
-                        Id = prodi.Id,
-                        CreatedBy = prodi.CreatedBy,
-                        CreatedDate = prodi.CreatedDate,
-                        IsActive = prodi.IsActive,
-                        Name = prodi.Name,
-                        UpdatedBy = prodi.UpdatedBy,
-                        UpdatedDate = prodi.UpdatedDate,
+                            select new ProdiViewModel
+                            {
+                                Id = prodi.Id,
+                                CreatedBy = prodi.CreatedBy,
+                                CreatedDate = prodi.CreatedDate,
+                                IsActive = prodi.IsActive,
+                                Name = prodi.Name,
+                                UpdatedBy = prodi.UpdatedBy,
+                                UpdatedDate = prodi.UpdatedDate,
 
-                        Pendidikan = pen.Name
-                    };
+                                Pendidikan = pen.Name
+                            };
 
                 results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
             }
@@ -679,22 +723,30 @@ namespace WApp.Controllers
             {
                 var filters = param.AdditionalValues.ToList();
                 var query = from satuanKerja in _context.SatuanKerjas.Where(m => m.Name.ToLower().Contains((filters[0] ?? string.Empty).ToLower()))
-                            join unitKerja in _context.Poldas.Where(m => m.IsActive) on satuanKerja.UnitKerjaID equals unitKerja.Id into UK
-                            from unitKerja in UK.DefaultIfEmpty()
-                    select new SatuanKerjaViewModel
-                    {
-                        Id = satuanKerja.Id,
-                        CreatedBy = satuanKerja.CreatedBy,
-                        CreatedDate = satuanKerja.CreatedDate,
-                        IsActive = satuanKerja.IsActive,
-                        Name = satuanKerja.Name,
-                        UpdatedBy = satuanKerja.UpdatedBy,
-                        UpdatedDate = satuanKerja.UpdatedDate,
-                        
-                        UnitKerja = unitKerja.Name
-                    };
-
+                            select new SatuanKerjaViewModel
+                            {
+                                Id = satuanKerja.Id,
+                                CreatedBy = satuanKerja.CreatedBy,
+                                CreatedDate = satuanKerja.CreatedDate,
+                                IsActive = satuanKerja.IsActive,
+                                Name = satuanKerja.Name,
+                                UpdatedBy = satuanKerja.UpdatedBy,
+                                UpdatedDate = satuanKerja.UpdatedDate
+                            };
+                //if (param.Order == null)
                 results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
+                //else
+                //    results = (param.Order[0]?.Column) switch
+                //    {
+                //        1 => param.Order[0].Dir == Enums.DTOrderDir.ASC
+                //                                    ? await query.OrderBy(o => o.Name).ToListAsync()
+                //                                    : await query.OrderByDescending(o => o.Name).ToListAsync(),
+                //        2 => param.Order[0].Dir == Enums.DTOrderDir.ASC
+                //                                    ? await query.OrderBy(o => o.IsActive).ToListAsync()
+                //                                    : await query.OrderByDescending(o => o.IsActive).ToListAsync(),
+                //        _ => await query.OrderBy(o => o.IsActive)
+                //                                    .ThenByDescending(m => m.CreatedDate).ToListAsync(),
+                //    };
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -708,18 +760,7 @@ namespace WApp.Controllers
                 new() { Title = "Create Satuan Kerja", IsActive = true },
             };
 
-            return View(new SatuanKerjaViewModel()
-            {
-                UnitKerjas =
-
-                [
-                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-                    {
-                        Value = m.Id,
-                        Text = m.Name
-                    }),
-                ]
-            });
+            return View(new SatuanKerjaViewModel());
         }
 
         public IActionResult EditSatuanKerja(string id)
@@ -745,17 +786,7 @@ namespace WApp.Controllers
                 IsActive = existingData.IsActive,
                 Name = existingData.Name,
                 UpdatedBy = existingData.UpdatedBy,
-                UpdatedDate = existingData.UpdatedDate,
-                UnitKerjaID = existingData.UnitKerjaID,
-                UnitKerjas =
-
-                [
-                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-                    {
-                        Value = m.Id,
-                        Text = m.Name
-                    }),
-                ]
+                UpdatedDate = existingData.UpdatedDate
             });
         }
 
@@ -775,15 +806,6 @@ namespace WApp.Controllers
                     if (existingSatuanKerja)
                     {
                         Alert(string.Format(Constans.Label.AlreadyExists, model.Name), Enums.NotificationType.error);
-                        model.UnitKerjas =
-
-                [
-                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-                    {
-                        Value = m.Id,
-                        Text = m.Name
-                    }),
-                ];
                         return View("CreateSatuanKerja", model);
                     }
                     var entity = new SatuanKerjaWilayahModel
@@ -794,9 +816,7 @@ namespace WApp.Controllers
                         CreatedBy = User.Identity.Name,
                         CreatedDate = DateTime.Now,
                         UpdatedBy = User.Identity.Name,
-                        UpdatedDate = DateTime.Now,
-
-                        UnitKerjaID = model.UnitKerjaID,
+                        UpdatedDate = DateTime.Now
                     };
 
                     if (string.IsNullOrEmpty(model.Id))
@@ -825,15 +845,6 @@ namespace WApp.Controllers
 
                 Alert(ex.Message, Enums.NotificationType.error);
             }
-            model.UnitKerjas =
-
-                [
-                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-                    {
-                        Value = m.Id,
-                        Text = m.Name
-                    }),
-                ];
             return View("CreateSatuanKerja", model);
         }
 
@@ -852,9 +863,9 @@ namespace WApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSatuanKerjaByUnitKerja(string param)
+        public async Task<IActionResult> GetUnitKerjaBySatuanKerja(string param)
         {
-            var query = from satuanKerja in _context.SatuanKerjas.Where(m => m.IsActive && m.UnitKerjaID == param)
+            var query = from satuanKerja in _context.Poldas.Where(m => m.IsActive && m.SatuanKerjaID == param)
                         select new SatuanKerjaViewModel
                         {
                             Id = satuanKerja.Id,

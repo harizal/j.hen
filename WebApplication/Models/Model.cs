@@ -5,12 +5,12 @@ namespace WApp.Models
 {
     public class PoldaModel : BaseModel
     {
+        public string? SatuanKerjaID { get; set; }
         public string Name { get; set; }
     }
 
     public class SatuanKerjaWilayahModel : BaseModel
-    {
-        public string? UnitKerjaID { get; set; }
+    {   
         public string Name { get; set; }
     }
 

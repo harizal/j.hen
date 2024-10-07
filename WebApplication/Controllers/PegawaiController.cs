@@ -163,7 +163,7 @@ namespace WApp.Controllers
             {
                 var newID = Guid.NewGuid().ToString();
 
-                var pegawai = _context.Pegawais.FirstOrDefault(m => m.NIK == item.Nomor && m.Type == item.Type);
+                var pegawai = _context.Pegawais.FirstOrDefault(m => m.NIK.Trim() == item.Nomor.Trim() && m.Type == item.Type);
                 pegawai ??= new PegawaiModel
                 {
                     Id = newID,
@@ -180,7 +180,7 @@ namespace WApp.Controllers
 
                 if (!string.IsNullOrEmpty(item.PendidikanText))
                 {
-                    var pendidikan = _context.Pendidikans.FirstOrDefault(m => m.Name.Equals(item.PendidikanText));
+                    var pendidikan = _context.Pendidikans.FirstOrDefault(m => m.Name.Trim() == item.PendidikanText.Trim());
                     if (pendidikan == null)
                     {
                         pendidikan = new PendidikanModel
@@ -202,7 +202,7 @@ namespace WApp.Controllers
 
                 if (!string.IsNullOrEmpty(item.ProdiText))
                 {
-                    var prodi = _context.Prodis.FirstOrDefault(m => m.Name.Equals(item.ProdiText));
+                    var prodi = _context.Prodis.FirstOrDefault(m => m.Name.Trim() == item.ProdiText.Trim() && m.PendidikanID == pegawai.PendidikanID);
                     if (prodi == null)
                     {
                         prodi = new ProdiModel
@@ -213,7 +213,9 @@ namespace WApp.Controllers
                             UpdatedDate = DateTime.Now,
                             IsActive = true,
                             Name = item.ProdiText,
-                            Id = Guid.NewGuid().ToString()
+                            Id = Guid.NewGuid().ToString(),
+
+                            PendidikanID = pegawai.PendidikanID
                         };
 
                         _context.Prodis.Add(prodi);
@@ -224,7 +226,7 @@ namespace WApp.Controllers
 
                 if (!string.IsNullOrEmpty(item.SatuanKerjaText))
                 {
-                    var prodi = _context.SatuanKerjas.FirstOrDefault(m => m.Name.Equals(item.SatuanKerjaText));
+                    var prodi = _context.SatuanKerjas.FirstOrDefault(m => m.Name.Trim() == item.SatuanKerjaText.Trim());
                     if (prodi == null)
                     {
                         prodi = new SatuanKerjaWilayahModel
@@ -246,7 +248,7 @@ namespace WApp.Controllers
 
                 if (!string.IsNullOrEmpty(item.UnitKerjaText))
                 {
-                    var prodi = _context.Poldas.FirstOrDefault(m => m.Name.Equals(item.UnitKerjaText));
+                    var prodi = _context.Poldas.FirstOrDefault(m => m.Name.Trim() == item.UnitKerjaText.Trim() && m.SatuanKerjaID == pegawai.UnitKerjaID);
                     if (prodi == null)
                     {
                         prodi = new PoldaModel
@@ -257,7 +259,9 @@ namespace WApp.Controllers
                             UpdatedDate = DateTime.Now,
                             IsActive = true,
                             Name = item.UnitKerjaText,
-                            Id = Guid.NewGuid().ToString()
+                            Id = Guid.NewGuid().ToString(),
+
+                            SatuanKerjaID = pegawai.SatuanKerjaID
                         };
 
                         _context.Poldas.Add(prodi);
@@ -331,7 +335,7 @@ namespace WApp.Controllers
                                      CreatedDate = pegawai.CreatedDate,
                                      UpdatedBy = pegawai.UpdatedBy,
                                      UpdatedDate = pegawai.UpdatedDate
-                                 }).OrderByDescending(m => m.IsActive).ThenBy(m => m.Name).ToListAsync();
+                                 }).OrderByDescending(m => m.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -393,10 +397,10 @@ namespace WApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var existingK2 = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.Type == Enums.PegawaiType.K2);
+                    var existingK2 = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.NIK == model.NIK && m.IsActive && m.Type == Enums.PegawaiType.K2);
                     if (!string.IsNullOrEmpty(model.Id))
                     {
-                        existingK2 = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.Id != model.Id && m.Type == Enums.PegawaiType.K2);
+                        existingK2 = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.NIK == model.NIK && m.IsActive && m.Id != model.Id && m.Type == Enums.PegawaiType.K2);
                     }
 
                     if (existingK2)
@@ -563,7 +567,7 @@ namespace WApp.Controllers
                                      CreatedDate = pegawai.CreatedDate,
                                      UpdatedBy = pegawai.UpdatedBy,
                                      UpdatedDate = pegawai.UpdatedDate
-                                 }).OrderByDescending(m => m.IsActive).ThenBy(m => m.Name).ToListAsync();
+                                 }).OrderByDescending(m => m.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -624,10 +628,10 @@ namespace WApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var existingPHL = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.Type == Enums.PegawaiType.PHL);
+                    var existingPHL = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.NIK == model.NIK && m.IsActive && m.Type == Enums.PegawaiType.PHL);
                     if (!string.IsNullOrEmpty(model.Id))
                     {
-                        existingPHL = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.IsActive && m.Id != model.Id && m.Type == Enums.PegawaiType.PHL);
+                        existingPHL = _context.Pegawais.Any(m => m.Name.Trim().ToLower() == model.Name.Trim().ToLower() && m.NIK == model.NIK && m.IsActive && m.Id != model.Id && m.Type == Enums.PegawaiType.PHL);
                     }
 
                     if (existingPHL)

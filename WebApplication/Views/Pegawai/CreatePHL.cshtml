@@ -60,15 +60,6 @@
                         </div>
                         <div class="col-md-6">                           
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Unit Kerja</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control input" data-live-search="true">
-                                        <option></option>
-                                    </select>
-                                    <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-md-3 control-label">Satuan Kerja</label>
                                 <div class="col-md-6 col-xs-12">
                                     <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control input" data-live-search="true">
@@ -77,6 +68,15 @@
                                     <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Unit Kerja</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control input" data-live-search="true">
+                                        <option></option>
+                                    </select>
+                                    <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
+                                </div>
+                            </div>                            
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Awal Kerja</label>
                                 <div class="col-md-6 col-xs-12">
@@ -131,12 +131,12 @@
             UpdateNestedSelect("/Master/GetProdiByPendidikan", selectedPendidikan, prodiChoice);
         });
 
-        const unitKerjaChoice = new Choices('#UnitKerjaID');
         const satuanKerjaChoice = new Choices('#SatuanKerjaID');
+        const unitKerjaChoice = new Choices('#UnitKerjaID');
 
-        $('#UnitKerjaID').change(function () {
+        $('#SatuanKerjaID').change(function () {
             const selectedUnitKerja = this.value;
-            UpdateNestedSelect("/Master/GetSatuanKerjaByUnitKerja", selectedUnitKerja, satuanKerjaChoice);
+            UpdateNestedSelect("/Master/GetUnitKerjaBySatuanKerja", selectedUnitKerja, unitKerjaChoice);
         });
     });
 </script>

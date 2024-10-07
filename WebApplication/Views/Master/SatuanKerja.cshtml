@@ -35,7 +35,6 @@
                 <thead class="thead-light">
                     <tr>
                         <th></th>
-                        <th>UNIT KERJA</th>
                         <th>NAME</th>
                         <th>STATUS</th>
                     </tr>
@@ -65,6 +64,9 @@
                 "language": {
                     'processing': '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
                 },
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }  // Disable sorting on the first column (index 0)
+                ],
                 "columns": [
                     {
                         "data": "id",
@@ -76,9 +78,6 @@
                                                                 <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
                                                                     </div>`
                         }
-                    },
-                    {
-                        "data": "unitKerja",
                     },
                     {
                         "data": "name",
@@ -93,7 +92,7 @@
                 ],
                 serverSide: true,
                 searching: false,
-                ordering: false,
+                ordering: true,
                 drawCallback: function (settings) {
                     initDelete(".deleteDatas");
                 }

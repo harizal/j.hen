@@ -29,16 +29,16 @@ namespace WApp.ViewModels
     {
         [Required]
         public string Name { get; set; }
+
+        public string? SatuanKerjaID { get; set; }
+        public string? SatuanKerja { get; set; }
+        public List<SelectListItem>? SatuanKerjas { get; set; }
     }
 
     public class SatuanKerjaViewModel : BaseModel
     {
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string UnitKerjaID { get; set; }
-        public string? UnitKerja { get; set; }
-        public List<SelectListItem>? UnitKerjas { get; set; }
     }
 
     public class PendidikanViewModel : BaseModel
