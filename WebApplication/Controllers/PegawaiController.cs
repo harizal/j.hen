@@ -282,6 +282,16 @@ namespace WApp.Controllers
             }
         }
 
+        private List<string> EnsureFilter(IEnumerable<string> items)
+        {
+            var itemList = items.ToList();
+            while(itemList.Count < 4)
+            {
+                itemList.Add(string.Empty);
+            }
+            return itemList;
+        }
+
         #region K-II
         public IActionResult K2()
         {
@@ -289,7 +299,25 @@ namespace WApp.Controllers
             {
                 new() { Title = "K-II", Url = Url.Action("K2", "Pegawai"), IsActive = true },
             };
-            return View();
+            return View(new PegawaiIndexViewModel
+            {
+                ListSatuanKerja =
+                [
+                    .. _context.SatuanKerjas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Text = m.Name,
+                        Value = m.Id
+                    }),
+                ],
+                ListUnitKerja =
+                [
+                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Text = m.Name,
+                        Value = m.Id
+                    }),
+                ]
+            });
         }
 
         [HttpPost]
@@ -300,6 +328,7 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
+                filters = EnsureFilter(filters);
                 results = await (from pegawai in _context.Pegawais.Where(m =>
                         m.NIK.ToLower().Contains((filters[0] ?? string.Empty).ToLower()) &&
                         m.Name.ToLower().Contains((filters[1] ?? string.Empty).ToLower()) &&
@@ -324,7 +353,9 @@ namespace WApp.Controllers
                                      JenisKelaminText = EnumHelper.GetDescription(pegawai.JenisKelamin),
                                      PendidikanText = pen.Name,
                                      ProdiText = prod.Name,
+                                     SatuanKerjaID = satuanKerja.Id,
                                      SatuanKerjaText = satuanKerja.Name,
+                                     UnitKerjaID = unitKerja.Id,
                                      UnitKerjaText = unitKerja.Name,
                                      TanggalAwal = ConverterHelper.DateTimeToString(pegawai.TanggalAwal),
                                      TanggalAkhir = ConverterHelper.DateTimeToString(pegawai.TanggalAkhir),
@@ -335,7 +366,9 @@ namespace WApp.Controllers
                                      CreatedDate = pegawai.CreatedDate,
                                      UpdatedBy = pegawai.UpdatedBy,
                                      UpdatedDate = pegawai.UpdatedDate
-                                 }).OrderByDescending(m => m.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
+                                 }).OrderByDescending(m => m.IsActive).ThenByDescending(m => m.CreatedDate)
+                                 .Where(m => m.SatuanKerjaID.Contains(filters[2] ?? string.Empty) &&
+                                             m.UnitKerjaID.Contains(filters[3] ?? string.Empty)).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -512,7 +545,7 @@ namespace WApp.Controllers
             return Json(new { issuccess = systemError, error = message });
         }
 
-       
+
         #endregion
 
         #region PHL

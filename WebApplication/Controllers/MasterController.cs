@@ -865,7 +865,7 @@ namespace WApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUnitKerjaBySatuanKerja(string param)
         {
-            var query = from satuanKerja in _context.Poldas.Where(m => m.IsActive && m.SatuanKerjaID == param)
+            var query = from satuanKerja in _context.Poldas.Where(m => m.IsActive && m.SatuanKerjaID.Contains(param))
                         select new SatuanKerjaViewModel
                         {
                             Id = satuanKerja.Id,
@@ -878,6 +878,7 @@ namespace WApp.Controllers
                         };
 
             var results = await query.OrderBy(o => o.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
+            results.Insert(0, new SatuanKerjaViewModel { Id = "", Name = "" });
             return Ok(results);
         }
         #endregion

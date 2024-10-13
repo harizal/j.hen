@@ -123,4 +123,13 @@ namespace WApp.ViewModels
         public List<Item> PHLJenisKelamin { get; set; } = [];
         public List<Item> PHLPendidikan { get; set; } = [];
     }
+
+    public class PegawaiIndexViewModel
+    {
+        public string? SatuanKerjaID { get; set; }
+        public List<SelectListItem>? ListSatuanKerja { get; set; }
+
+        public string? UnitKerjaID { get; set; }
+        public List<SelectListItem>? ListUnitKerja { get; set; }
+    }
 }

@@ -62,3 +62,26 @@ function UpdateNestedSelect(apiUrl, parameter, selectorSelect) {
         });
     }
 }
+
+function UpdateNestedSelectFilter(apiUrl, parameter, selectorSelect) {
+    selectorSelect.clearChoices();
+    selectorSelect.removeActiveItems();
+    $.ajax({
+        type: "GET",
+        url: apiUrl, // The base API URL
+        data: { param: parameter }, // The single parameter being sent
+        contentType: "application/json",
+        success: function (data) {
+            var items = data.map(function (items) {
+                return { value: items.id, label: items.name };
+            });
+            [{ value: '', label: '' }].concat(items);
+            selectorSelect.setValue(items);
+            selectorSelect.setChoiceByValue('');
+        },
+        error: function (error) {
+            console.error("Error:", error);
+            // Handle the error
+        }
+    });
+}
