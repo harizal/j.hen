@@ -7,3 +7,4 @@
 /WebApplication/bin/Debug/net8.0
 WebApplication/.vs/*
 WebApplication/bin/*
+/WebApplication/Properties/PublishProfiles/*

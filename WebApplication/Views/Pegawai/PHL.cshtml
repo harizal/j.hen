@@ -1,4 +1,7 @@
-﻿<div class="card">
+﻿@using WApp.ViewModels
+@model PegawaiIndexViewModel
+
+<div class="card">
     <div class="card-header pb-0">
         <div class="">
             <div class="my-auto mt-lg-0 mt-4">
@@ -39,6 +42,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Satuan Kerja</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control input" data-live-search="true" data-placeholder="This is a placeholder">
+                                        <option></option>
+                                    </select>
+                                    <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Unit Kerja</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control input" data-live-search="true">
+                                        <option></option>
+                                    </select>
+                                    <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -50,6 +73,7 @@
                     </div>
                     <hr b-f9qln7o7lm="" class="horizontal dark mt-0">
                     <a asp-action="CreatePHL" asp-controller="Pegawai" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; New PHL</a>
+                    <button id="deleteAll" class="btn bg-gradient-danger btn-sm mb-0" type="button" name="button"><i class="fa fa-trash"></i>&nbsp; Delte All</button>
                 </div>
             </div>
         </div>
@@ -60,6 +84,8 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th><input type="checkbox" id="selectAllHeader"></th>
+                        <th>NO</th>
                         <th>NIK</th>
                         <th>NAME</th>
                         <th>JENIS KELAMIN</th>
@@ -80,9 +106,13 @@
 
 <script>
     var datatable = null;
+    var satuanKerjaChoice = null;
+    var unitKerjaChoice = null;
+
     $(document).ready(function () {
         bindDatatable();
     });
+
     function bindDatatable() {
         datatable = $('#tableData')
             .DataTable({
@@ -91,15 +121,15 @@
                     type: "POST",
                     async: true,
                     data: function (data) {
-                        data.additionalValues = [$("#nik").val(), $("#name").val()];
+                        data.additionalValues = [$("#nik").val(), $("#name").val(), $("#SatuanKerjaID").val(), $("#UnitKerjaID").val()];
                         return data;
                     }
                 },
                 "language": {
                     'processing': '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
                 },
-                "columnDefs": [
-                    { "orderable": false, "targets": 0 }  // Disable sorting on the first column (index 0)
+                columnDefs: [
+                    { "orderable": false, "searchable": false, "targets": [0, 1] } // Disable sorting and searching for column 0 and 1
                 ],
                 "columns": [
                     {
@@ -108,9 +138,25 @@
                         "render": function (data, type, row, meta) {
                             var editUrl = "/Pegawai/EditPHL/" + data;
                             return `<div style="text-align: center;">
-                                                                <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
-                                                                        <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
-                                                                            </div>`
+                                        <a href="${editUrl}" style="margin-right: 5px;" class="label label-warning"><span class="fa fa-pencil"></span></a>
+                                                <a href="javascript:void(0)" data-id="${row.id}" class="deleteDatas label label-danger"><span class="fa fa-trash-o"></span></a>
+                                                    </div>`
+                        }
+                    },
+                    {
+                        // Add checkbox column
+                        "data": null,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px",
+                        "render": function (data, type, row) {
+                            return `<input type="checkbox" class="row-checkbox" data-id="${row.id}">`;
+                        }
+                    },
+                    {
+                        "data": "id",
+                        "render": function (data, type, row, meta) {
+                            return meta.row + 1; // Add row numbering, meta.row gives the current row index
                         }
                     },
                     {
@@ -162,9 +208,44 @@
             });
     }
 
+    $('#selectAllHeader').on('click', function () {
+        var rows = datatable.rows({ 'search': 'applied' }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+
+    // Handle row checkboxes to control the "Select All" checkbox in the header
+    $('#tableData tbody').on('change', 'input.row-checkbox', function () {
+        if (!this.checked) {
+            $('#selectAllHeader').prop('checked', false);
+        } else if ($('.row-checkbox:checked').length === $('.row-checkbox').length) {
+            $('#selectAllHeader').prop('checked', true);
+        }
+    });
+
+    $('#deleteAll').click(function () {
+        var selectedIds = [];
+        $('.row-checkbox:checked').each(function () {
+            selectedIds.push($(this).data('id'));
+        });
+
+        if (selectedIds.length === 0) {
+            swal({
+                title: 'Delete All!',
+                text: 'Please select at least one row to delete.',
+                type: 'warning'
+            })
+        } else {
+            var idsString = selectedIds.join(',');
+            ShowConfimDeleteAll(datatable, "/Pegawai/DeleteAll", idsString);
+            $("#selectAllHeader").prop("checked", false);
+        }
+    });
+
     function ClearForm() {
         $("#nik").val('');
         $("#name").val('');
+        satuanKerjaChoice.setChoiceByValue('');
+        unitKerjaChoice.clearStore();
         Search();
     }
 
@@ -222,4 +303,22 @@
             datatable.ajax.reload();
         });
     });
+
+    $(function () {
+
+        satuanKerjaChoice = new Choices('#SatuanKerjaID', {
+            removeItemButton: true,
+
+        });
+        unitKerjaChoice = new Choices('#UnitKerjaID', {
+            removeItemButton: true,
+
+        });
+
+        $('#SatuanKerjaID').change(function () {
+            const selectedUnitKerja = this.value;
+            UpdateNestedSelectFilter("/Master/GetUnitKerjaBySatuanKerja", selectedUnitKerja, unitKerjaChoice);
+        });
+    });
+
 </script>

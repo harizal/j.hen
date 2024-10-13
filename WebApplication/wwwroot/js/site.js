@@ -40,6 +40,42 @@ function ShowConfimDelete(table, url, id) {
     });
 }
 
+function ShowConfimDeleteAll(table, url, selectedIds) {
+    swal({
+        title: 'Delete',
+        text: "Are you sure want to delete selected the data(s) ?",
+        icon: 'warning',
+        buttons: [
+            'Cancel',
+            'Yes'
+        ],
+    }).then((value) => {
+        if (value) {
+            $.ajax({
+                url: url,
+                data: { ids: selectedIds },
+                method: "POST",
+                success: function (response) {
+                    if (response.isSuccess) {
+                        table.ajax.reload();
+                        swal(
+                            'Deleted!',
+                            'Your data has been deleted.',
+                            'success'
+                        )
+                    } else {
+                        swal('Delete', "Delete failed. Message: " + response.error, "error");
+
+                    }
+                },
+                error: function () {
+                    swal('Delete', "Delete failed. Message: " + response.error, "error");
+                }
+            });
+        }
+    });
+}
+
 function UpdateNestedSelect(apiUrl, parameter, selectorSelect) {
     selectorSelect.clearChoices();
     selectorSelect.removeActiveItems();

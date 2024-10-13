@@ -14,6 +14,8 @@ namespace WApp.Controllers
     {
         private readonly ILogger<PegawaiController> _logger;
         private readonly AppDataContext _context;
+        private static readonly char[] separator = new[] { ',' };
+
         public PegawaiController(ILogger<PegawaiController> logger, AppDataContext context)
         {
             _logger = logger;
@@ -285,7 +287,7 @@ namespace WApp.Controllers
         private List<string> EnsureFilter(IEnumerable<string> items)
         {
             var itemList = items.ToList();
-            while(itemList.Count < 4)
+            while (itemList.Count < 4)
             {
                 itemList.Add(string.Empty);
             }
@@ -353,9 +355,9 @@ namespace WApp.Controllers
                                      JenisKelaminText = EnumHelper.GetDescription(pegawai.JenisKelamin),
                                      PendidikanText = pen.Name,
                                      ProdiText = prod.Name,
-                                     SatuanKerjaID = satuanKerja.Id,
+                                     SatuanKerjaID = satuanKerja.Id ?? string.Empty,
                                      SatuanKerjaText = satuanKerja.Name,
-                                     UnitKerjaID = unitKerja.Id,
+                                     UnitKerjaID = unitKerja.Id ?? string.Empty,
                                      UnitKerjaText = unitKerja.Name,
                                      TanggalAwal = ConverterHelper.DateTimeToString(pegawai.TanggalAwal),
                                      TanggalAkhir = ConverterHelper.DateTimeToString(pegawai.TanggalAkhir),
@@ -555,7 +557,25 @@ namespace WApp.Controllers
             {
                 new() { Title = "PHL", Url = Url.Action("PHL", "Pegawai"), IsActive = true }
             };
-            return View();
+            return View(new PegawaiIndexViewModel
+            {
+                ListSatuanKerja =
+                [
+                    .. _context.SatuanKerjas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Text = m.Name,
+                        Value = m.Id
+                    }),
+                ],
+                ListUnitKerja =
+                [
+                    .. _context.Poldas.Where(m => m.IsActive).Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Text = m.Name,
+                        Value = m.Id
+                    }),
+                ]
+            });
         }
 
         [HttpPost]
@@ -566,6 +586,7 @@ namespace WApp.Controllers
             if (param.AdditionalValues != null && param.AdditionalValues.Any())
             {
                 var filters = param.AdditionalValues.ToList();
+                filters = EnsureFilter(filters);
                 results = await (from pegawai in _context.Pegawais.Where(m =>
                         m.NIK.ToLower().Contains((filters[0] ?? string.Empty).ToLower()) &&
                         m.Name.ToLower().Contains((filters[1] ?? string.Empty).ToLower()) &&
@@ -589,7 +610,9 @@ namespace WApp.Controllers
                                      JenisKelaminText = EnumHelper.GetDescription(pegawai.JenisKelamin),
                                      PendidikanText = pen.Name,
                                      ProdiText = prod.Name,
+                                     SatuanKerjaID = satuanKerja.Id ?? string.Empty,
                                      SatuanKerjaText = satuanKerja.Name,
+                                     UnitKerjaID = unitKerja.Id ?? string.Empty,
                                      UnitKerjaText = unitKerja.Name,
                                      TanggalAwal = ConverterHelper.DateTimeToString(pegawai.TanggalAwal),
                                      TanggalAkhir = ConverterHelper.DateTimeToString(pegawai.TanggalAkhir),
@@ -600,7 +623,9 @@ namespace WApp.Controllers
                                      CreatedDate = pegawai.CreatedDate,
                                      UpdatedBy = pegawai.UpdatedBy,
                                      UpdatedDate = pegawai.UpdatedDate
-                                 }).OrderByDescending(m => m.IsActive).ThenByDescending(m => m.CreatedDate).ToListAsync();
+                                 }).OrderByDescending(m => m.IsActive).ThenByDescending(m => m.CreatedDate)
+                                 .Where(m => m.SatuanKerjaID.Contains(filters[2] ?? string.Empty) &&
+                                             m.UnitKerjaID.Contains(filters[3] ?? string.Empty)).ToListAsync();
             }
 
             return new JsonResult(DataTablePagedHelper.GetDatatablePaged(results, param));
@@ -774,5 +799,34 @@ namespace WApp.Controllers
             return Json(new { issuccess = systemError, error = message });
         }
         #endregion
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAll(string ids)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ids))
+                {
+                    return BadRequest(new { isSuccess = false, error = "No IDs provided." });
+                }
+
+                var idArray = ids.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var id in idArray)
+                {
+                    // Assume you have a service to delete the data by ID
+                    var pegawai = _context.Pegawais.FirstOrDefault(m => m.Id == id);
+                    if (pegawai != null)
+                        _context.Pegawais.Remove(pegawai);
+                }
+                await _context.SaveChangesAsync();
+                return Ok(new { isSuccess = true });
+
+            }
+            catch (Exception)
+            {
+                return Ok(new { isSuccess = false });
+            }
+        }
     }
 }
