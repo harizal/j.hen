@@ -8,3 +8,4 @@
 WebApplication/.vs/*
 WebApplication/bin/*
 /WebApplication/Properties/PublishProfiles/*
+/WebApplication/Properties/*

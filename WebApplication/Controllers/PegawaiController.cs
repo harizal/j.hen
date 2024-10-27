@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using WApp.Datas;
@@ -7,6 +8,7 @@ using WApp.Models;
 using WApp.Utlis;
 using WApp.ViewModels;
 using WApp.ViewModels.Parameters;
+using static WApp.Utlis.Enums;
 
 namespace WApp.Controllers
 {
@@ -827,6 +829,48 @@ namespace WApp.Controllers
             {
                 return Ok(new { isSuccess = false });
             }
+        }
+
+        public List<Item> GetTotalPendidikans(bool isPHL)
+        {
+            var result = new List<Item>();
+
+            List<PegawaiViewModel> query =
+            [
+                .. (from pegawai in _context.Pegawais.Where(m => m.Type == PegawaiType.PHL)
+                    join pen in _context.Pendidikans on pegawai.PendidikanID equals pen.Id into pendidikan
+                    from pen in pendidikan.DefaultIfEmpty()
+                    select new PegawaiViewModel
+                    {
+                        Id = pegawai.Id,
+                        JenisKelaminText = pegawai.JenisKelamin.HasValue ? EnumHelper.GetDescription(pegawai.JenisKelamin) : "-",
+                        PendidikanText = pen.Name,
+                    }),
+            ];
+            if (!isPHL)
+            {
+                query =
+                [
+                    .. (from pegawai in _context.Pegawais.Where(m => m.Type == PegawaiType.K2)
+                        join pen in _context.Pendidikans on pegawai.PendidikanID equals pen.Id into pendidikan
+                        from pen in pendidikan.DefaultIfEmpty()
+                        select new PegawaiViewModel
+                        {
+                            Id = pegawai.Id,
+                            JenisKelaminText = pegawai.JenisKelamin.HasValue ? EnumHelper.GetDescription(pegawai.JenisKelamin) : "-",
+                            PendidikanText = pen.Name,
+                        }),
+                ];
+            }
+
+            var totalPendidikan = query.GroupBy(m => m.PendidikanText)
+                .Select(m => new { Text = m.Key, Value = m.Count() });
+            foreach (var item in totalPendidikan.OrderBy(m => m.Text))
+            {
+                result.Add(new Item { Text = item?.Text ?? "-", Total = item?.Value ?? 0 });
+            }
+
+            return result;
         }
     }
 }

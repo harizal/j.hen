@@ -4,76 +4,101 @@
 <div class="card">
     <div class="card-header pb-0">
         <div class="">
+            <div class="accordion" id="accordionRental">
+                <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingOne">
+                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Upload K-II
+                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                        </button>
+                    </h5>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionRental" style="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Excel File</label>
+                                    <div class="col-md-9">
+                                        <input type="file" class="form-control" name="fileUpload" id="fileUpload" title="Browse file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <button class="btn bg-gradient-primary btn-sm mb-0 me-2" id="UploadFile"><i class="fa fa-upload"></i>&nbsp; Upload File</button>
+                                    <a href="~/ExcelTemplate/Template-K-II.xlsx" class="btn btn-outline-dark btn-sm mb-0 "><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion" id="accordionSearch">
+                <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingSearch">
+                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                            Search K-II
+                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                        </button>
+                    </h5>
+                    <div id="collapseSearch" class="accordion-collapse collapse" aria-labelledby="headingSearch" data-bs-parent="#accordionSearch" style="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">No Registration</label>
+                                    <div class="col-md-9">
+                                        <input id="noRegistrasi" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Name</label>
+                                    <div class="col-md-9">
+                                        <input id="name" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Satuan Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control input" data-live-search="true" data-placeholder="This is a placeholder">
+                                            <option></option>
+                                        </select>
+                                        <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Unit Kerja</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control input" data-live-search="true">
+                                            <option></option>
+                                        </select>
+                                        <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-4">
+                                    <button class="btn bg-gradient-primary btn-sm mb-0 me-2" type="button" name="button" onClick="Search()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                                    <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button" onClick="ClearForm()"><i class="fa fa-refresh"></i>&nbsp; Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="my-auto mt-lg-0 mt-4">
                 <div class="my-auto">
-                    <h5 class="font-weight-bolder">Upload K-II</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Excel File</label>
-                                <div class="col-md-9">
-                                    <input type="file" class="form-control" name="fileUpload" id="fileUpload" title="Browse file" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-4">
-                                <button class="btn bg-gradient-primary btn-sm mb-0 me-2" id="UploadFile"><i class="fa fa-upload"></i>&nbsp; Upload File</button>
-                                <a href="~/ExcelTemplate/Template-K-II.xlsx" class="btn btn-outline-dark btn-sm mb-0 "><i class="fa fa-download"></i>&nbsp; Download Template</a>
-                            </div>
-                        </div>
-                    </div>
-                    <hr b-f9qln7o7lm="" class="horizontal dark mt-0">
-                    <h5 class="font-weight-bolder">Search K-II</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">No Registration</label>
-                                <div class="col-md-9">
-                                    <input id="noRegistrasi" type="text" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Name</label>
-                                <div class="col-md-9">
-                                    <input id="name" type="text" class="form-control" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Satuan Kerja</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListSatuanKerja" asp-for="SatuanKerjaID" class="form-control input" data-live-search="true" data-placeholder="This is a placeholder">
-                                        <option></option>
-                                    </select>
-                                    <span asp-validation-for="SatuanKerjaID" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Unit Kerja</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <select asp-items="Model.ListUnitKerja" asp-for="UnitKerjaID" class="form-control input" data-live-search="true">
-                                        <option></option>
-                                    </select>
-                                    <span asp-validation-for="UnitKerjaID" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-4">
-                                <button class="btn bg-gradient-primary btn-sm mb-0 me-2" type="button" name="button" onClick="Search()"><i class="fa fa-search"></i>&nbsp; Search</button>
-                                <button class="btn btn-outline-dark btn-sm mb-0" type="button" name="button" onClick="ClearForm()"><i class="fa fa-refresh"></i>&nbsp; Clear</button>
-                            </div>
-                        </div>
-                    </div>
-                    <hr b-f9qln7o7lm="" class="horizontal dark mt-0">
                     <a asp-action="CreateK2" asp-controller="Pegawai" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; New K-II</a>
                     <button id="deleteAll" class="btn bg-gradient-danger btn-sm mb-0" type="button" name="button"><i class="fa fa-trash"></i>&nbsp; Delte All</button>
+                    <div style="float: inline-end;text-align: center;" id="pendidikanTotal">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,6 +124,12 @@
                         <th>STATUS</th>
                     </tr>
                 </thead>
+              @*   <tfoot>
+                    <tr>
+                        <th colspan="4">Total Pendidikan:</th>
+                        <th colspan="10" id="pendidikanTotal"></th> <!-- This is where the total will go -->
+                    </tr>
+                </tfoot> *@
             </table>
         </div>
     </div>
@@ -205,6 +236,29 @@
                 scrollX: true,
                 drawCallback: function (settings) {
                     initDelete(".deleteDatas");
+                },
+                footerCallback: function (row, data, start, end, display) {
+                    $.ajax({
+                        url: "/Pegawai/GetTotalPendidikans",  // Your API to get totals
+                        method: "GET",
+                        data: { isPHL: false },
+                        success: function (response) {
+                            var totalSummary = ''; // Initialize total summary string
+
+                            // Assume the response is an object with key-value pairs like { 'SMA': 10, 'SD': 5 }
+                            for (var key in response) {
+                                if (response.hasOwnProperty(key)) {
+                                    totalSummary += `<span class="badge badge-info badge-sm m-1" style="font-size: small;">${response[key].text}: ${response[key].total}</span>`;
+                                }
+                            }
+
+                            // Update the footer with the calculated totals
+                            $('#pendidikanTotal').html(totalSummary);
+                        },
+                        error: function () {
+                            $('#pendidikanTotal').html('Error loading totals');
+                        }
+                    });
                 }
             });
     }

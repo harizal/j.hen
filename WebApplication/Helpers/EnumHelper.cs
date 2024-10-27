@@ -13,7 +13,7 @@ namespace WApp.Helpers
             {
                 DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-                if (attributes != null && attributes.Length > 0 && attributes[0].Description == description)
+                if (attributes != null && attributes.Length > 0 && attributes[0].Description?.ToLower() == description.ToLower())
                     return (T)Enum.Parse(typeof(T), fi.Name);
             }
 
